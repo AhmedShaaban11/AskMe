@@ -1,8 +1,7 @@
 #include <iostream>
-#include "UsersDb/UsersDb.h"
+#include "SignUp/SignUp.h"
 
 int main() {
-  std::cout << UsersDb::LoadData();
-  UsersDb::SaveData();
+  std::cout << std::boolalpha << SignUp::IsUsernameValid("ahmed1");
   return 0;
 }

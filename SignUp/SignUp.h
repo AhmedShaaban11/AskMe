@@ -5,9 +5,11 @@
 #ifndef ASKME_SIGNUP_H
 #define ASKME_SIGNUP_H
 
+#include <string>
 
 class SignUp {
-
+ public:
+  static bool IsUsernameValid(const std::string &username);
 };
 
 
