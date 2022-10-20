@@ -1,6 +1,8 @@
 #include <iostream>
+#include "UsersDb/UsersDb.h"
 
 int main() {
-  std::cout << "Hello, World!" << std::endl;
+  std::cout << UsersDb::LoadData();
+  UsersDb::SaveData();
   return 0;
 }

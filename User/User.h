@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <string>
+#include "../UsersDb/UsersDb.h"
 
 class User {
  private:
@@ -17,6 +18,8 @@ class User {
   bool is_accepting_anonymous;
   std::vector<int> ques_from;
   std::vector<int> ques_to;
+  friend std::ofstream& operator<<(std::ofstream &fout, const User &user);
+  friend class UsersDb;
  public:
   User();
 };
