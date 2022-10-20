@@ -18,3 +18,8 @@ bool SignUp::IsEmailValid(const std::string &email) {
   std::regex valid (local_part + "@" + first_domain_part + other_domain_parts);
   return std::regex_match(email, valid);
 }
+
+bool SignUp::IsPasswordValid(const std::string &password) {
+  std::regex valid("[^ ]{4,}");
+  return std::regex_match(password, valid);
+}

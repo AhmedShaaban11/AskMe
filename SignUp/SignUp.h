@@ -11,6 +11,7 @@ class SignUp {
  public:
   static bool IsUsernameValid(const std::string &username);
   static bool IsEmailValid(const std::string &email);
+  static bool IsPasswordValid(const std::string &password);
 };
 
 
