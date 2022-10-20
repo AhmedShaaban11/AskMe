@@ -10,6 +10,7 @@
 class SignUp {
  public:
   static bool IsUsernameValid(const std::string &username);
+  static bool IsEmailValid(const std::string &email);
 };
 
 
