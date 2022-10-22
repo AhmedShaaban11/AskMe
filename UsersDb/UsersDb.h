@@ -9,6 +9,10 @@
 
 
 class UsersDb {
+ private:
+  static bool IsUsernameUsedBefore(const std::string &username);
+  static bool IsEmailUsedBefore(const std::string &email);
+  static int GenerateId();
  public:
   static bool LoadData();
   static void SaveData();

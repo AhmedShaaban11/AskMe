@@ -22,6 +22,8 @@ class User {
   friend class UsersDb;
  public:
   User();
+  User(const int &id, const std::string &username, const std::string &email,
+       const std::string &password, const bool &is_accepting_anonymous);
 };
 
 

@@ -2,10 +2,11 @@
 // Created by ahmed on 10/17/2022.
 //
 
-#include <vector>
+#include <iostream>
 #include <fstream>
 #include <sstream>
 #include <cassert>
+#include <vector>
 #include <string>
 #include "UsersDb.h"
 #include "../User/User.h"
@@ -13,6 +14,10 @@
 const char KDataPath[] = "../data/users_data.txt";
 
 std::vector<User> data;
+
+int UsersDb::GenerateId() {
+  return (int) data.size() + 1;
+}
 
 bool UsersDb::LoadData() {
   if (!data.empty()) { // if data loaded before
@@ -49,4 +54,24 @@ void UsersDb::SaveData() {
     fout << user;
   }
   fout.close();
+}
+
+bool UsersDb::AddUser(const std::string &username, const std::string &email,
+                      const std::string &password,
+                      const bool &is_accepting_anonymous) {
+  LoadData();
+  if (!IsUsernameUsedBefore(username)) {
+    std::cout << "Username used before.\n";
+    return false;
+  } else if (!IsEmailUsedBefore(email)) {
+    std::cout << "Email used before.\n";
+    return false;
+  }
+  User user(GenerateId(), username, email, password, is_accepting_anonymous);
+  std::ofstream fout(KDataPath, std::ios::out | std::ios::app);
+  assert(fout.fail());
+  fout << user;
+  fout.close();
+  data.push_back(user);
+  return true;
 }
