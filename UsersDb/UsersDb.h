@@ -12,6 +12,9 @@ class UsersDb {
  public:
   static bool LoadData();
   static void SaveData();
+  static bool AddUser(const std::string &username, const std::string &email,
+                      const std::string &password,
+                      const bool &is_accepting_anonymous);
 };
 
 
