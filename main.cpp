@@ -2,6 +2,6 @@
 #include "SignUp/SignUp.h"
 
 int main() {
-  std::cout << std::boolalpha << SignUp::IsPasswordValid("1423") << '\n';
+  SignUp::Sign("Tmmam", "tmmam@gmail.com", "12345", false);
   return 0;
 }

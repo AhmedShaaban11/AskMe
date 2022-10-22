@@ -4,7 +4,6 @@
 
 #include <iostream>
 #include <fstream>
-#include <sstream>
 #include <cassert>
 #include <vector>
 #include <string>
@@ -16,7 +15,7 @@ const char KDataPath[] = "../data/users_data.txt";
 std::vector<User> data;
 
 int UsersDb::GenerateId() {
-  return (int) data.size() + 1;
+  return (int) data.size();
 }
 
 bool UsersDb::IsUsernameUsedBefore(const std::string &username) {
@@ -40,7 +39,7 @@ bool UsersDb::LoadData() {
     return false;
   }
   std::ifstream fin(KDataPath, std::ios::in);
-  assert(fin.fail());
+  assert(!fin.fail());
   while (fin.peek() != EOF) {
     User user;
     fin >> user;
@@ -52,7 +51,7 @@ bool UsersDb::LoadData() {
 
 void UsersDb::SaveData() {
   std::ofstream fout(KDataPath, std::ios::out);
-  assert(fout.fail());
+  assert(!fout.fail());
   for (const User &user : data) {
     fout << user;
   }
@@ -63,16 +62,16 @@ bool UsersDb::AddUser(const std::string &username, const std::string &email,
                       const std::string &password,
                       const bool &is_accepting_anonymous) {
   LoadData();
-  if (!IsUsernameUsedBefore(username)) {
+  if (IsUsernameUsedBefore(username)) {
     std::cout << "Username used before.\n";
     return false;
-  } else if (!IsEmailUsedBefore(email)) {
+  } else if (IsEmailUsedBefore(email)) {
     std::cout << "Email used before.\n";
     return false;
   }
   User user(GenerateId(), username, email, password, is_accepting_anonymous);
   std::ofstream fout(KDataPath, std::ios::out | std::ios::app);
-  assert(fout.fail());
+  assert(!fout.fail());
   fout << user;
   fout.close();
   data.push_back(user);

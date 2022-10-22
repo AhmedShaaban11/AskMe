@@ -6,7 +6,7 @@
 #include <sstream>
 #include "User.h"
 
-User::User() : id_(0), username_(""), email_(""), password_(""),
+User::User() : id_(-1), username_(""), email_(""), password_(""),
     is_accepting_anonymous_(false) { }
 
 User::User(const int &id, const std::string &username, const std::string &email,
@@ -31,6 +31,7 @@ std::ofstream& operator<<(std::ofstream &fout, const User &user) {
 std::ifstream& operator>>(std::ifstream &fin, User &user) {
   fin >> user.id_ >> user.username_ >> user.email_ >> user.password_
       >> user.is_accepting_anonymous_;
+  fin.ignore(); // Ignores \n at the end
   int qu;
   std::string holder;
   std::stringstream ss;
@@ -38,9 +39,11 @@ std::ifstream& operator>>(std::ifstream &fin, User &user) {
   getline(fin, holder);
   ss << holder;
   while (ss >> qu) { user.ques_from_.push_back(qu); }
+  ss.clear();
   // Getting questions to this user
   getline(fin, holder);
   ss << holder;
   while (ss >> qu) { user.ques_to_.push_back(qu); }
+  ss.clear();
   return fin;
 }
