@@ -19,6 +19,22 @@ int UsersDb::GenerateId() {
   return (int) data.size() + 1;
 }
 
+bool UsersDb::IsUsernameUsedBefore(const std::string &username) {
+  LoadData();
+  for (const User &user : data) {
+    if (user.username == username) { return true; }
+  }
+  return false;
+}
+
+bool UsersDb::IsEmailUsedBefore(const std::string &email) {
+  LoadData();
+  for (const User &user : data) {
+    if (user.email == email) { return true; }
+  }
+  return false;
+}
+
 bool UsersDb::LoadData() {
   if (!data.empty()) { // if data loaded before
     return false;
