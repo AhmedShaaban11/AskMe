@@ -22,7 +22,7 @@ int UsersDb::GenerateId() {
 bool UsersDb::IsUsernameUsedBefore(const std::string &username) {
   LoadData();
   for (const User &user : data) {
-    if (user.username == username) { return true; }
+    if (user.username_ == username) { return true; }
   }
   return false;
 }
@@ -30,7 +30,7 @@ bool UsersDb::IsUsernameUsedBefore(const std::string &username) {
 bool UsersDb::IsEmailUsedBefore(const std::string &email) {
   LoadData();
   for (const User &user : data) {
-    if (user.email == email) { return true; }
+    if (user.email_ == email) { return true; }
   }
   return false;
 }
@@ -43,20 +43,7 @@ bool UsersDb::LoadData() {
   assert(fin.fail());
   while (fin.peek() != EOF) {
     User user;
-    fin >> user.id >> user.username >> user.email >> user.password
-        >> user.is_accepting_anonymous;
-    int qu;
-    std::string holder;
-    std::stringstream ss;
-    // Getting questions from this user
-    getline(fin, holder);
-    ss << holder;
-    while (ss >> qu) { user.ques_from.push_back(qu); }
-    // Getting questions to this user
-    getline(fin, holder);
-    ss << holder;
-    while (ss >> qu) { user.ques_to.push_back(qu); }
-    // Push data
+    fin >> user;
     data.push_back(user);
   }
   fin.close();

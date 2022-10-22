@@ -11,14 +11,15 @@
 
 class User {
  private:
-  int id;
-  std::string username;
-  std::string email;
-  std::string password;
-  bool is_accepting_anonymous;
-  std::vector<int> ques_from;
-  std::vector<int> ques_to;
+  int id_;
+  std::string username_;
+  std::string email_;
+  std::string password_;
+  bool is_accepting_anonymous_;
+  std::vector<int> ques_from_;
+  std::vector<int> ques_to_;
   friend std::ofstream& operator<<(std::ofstream &fout, const User &user);
+  friend std::ifstream& operator>>(std::ifstream &fin, User &user);
   friend class UsersDb;
  public:
   User();
