@@ -7,7 +7,9 @@
 
 
 class QuesDb {
-
+ public:
+  static bool LoadData();
+  static void SaveData();
 };
 
 
