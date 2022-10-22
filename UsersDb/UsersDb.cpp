@@ -95,3 +95,15 @@ bool UsersDb::AddUser(const std::string &username, const std::string &email,
   data.push_back(user);
   return true;
 }
+
+void UsersDb::ListUsersSystem() {
+  LoadData();
+  std::cout.fill('-');
+  for (const User &user : data) {
+    std::cout << "ID: ";
+    std::cout.width(20);
+    std::cout << std::left << user.id_;
+    std::cout << "Username: " << user.username_ << '\n';
+  }
+  std::cout.fill(' ');
+}

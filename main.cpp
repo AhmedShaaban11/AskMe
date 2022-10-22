@@ -1,7 +1,8 @@
 #include <iostream>
 #include "SignUp/SignUp.h"
+#include "UsersDb/UsersDb.h"
 
 int main() {
-  SignUp::Sign("kareem", "kareem@gmail.com", "1234", false);
+  UsersDb::ListUsersSystem();
   return 0;
 }
