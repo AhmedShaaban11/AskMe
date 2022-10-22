@@ -10,6 +10,8 @@
 
 class UsersDb {
  private:
+  static std::string ClearEmailFromUpperLettersAndDomainDots(
+      const std::string &email);
   static bool IsUsernameUsedBefore(const std::string &username);
   static bool IsEmailUsedBefore(const std::string &email);
   static int GenerateId();

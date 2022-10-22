@@ -18,6 +18,23 @@ int UsersDb::GenerateId() {
   return (int) data.size();
 }
 
+std::string UsersDb::ClearEmailFromUpperLettersAndDomainDots(
+    const std::string &email) {
+  std::string new_email;
+  int at_pos = (int) email.find('@');
+  for (int i = 0; i < (int) email.length(); ++i) {
+    char c = email[i];
+    if (c == '.' && i < at_pos) {
+      continue;
+    } else if (std::isalpha(c)) {
+      new_email += (char) tolower(c);
+    } else {
+      new_email += c;
+    }
+  }
+  return new_email;
+}
+
 bool UsersDb::IsUsernameUsedBefore(const std::string &username) {
   LoadData();
   for (const User &user : data) {
@@ -62,14 +79,15 @@ bool UsersDb::AddUser(const std::string &username, const std::string &email,
                       const std::string &password,
                       const bool &is_accepting_anonymous) {
   LoadData();
+  std::string cur_email = ClearEmailFromUpperLettersAndDomainDots(email);
   if (IsUsernameUsedBefore(username)) {
     std::cout << "Username used before.\n";
     return false;
-  } else if (IsEmailUsedBefore(email)) {
+  } else if (IsEmailUsedBefore(cur_email)) {
     std::cout << "Email used before.\n";
     return false;
   }
-  User user(GenerateId(), username, email, password, is_accepting_anonymous);
+  User user(GenerateId(), username, cur_email, password, is_accepting_anonymous);
   std::ofstream fout(KDataPath, std::ios::out | std::ios::app);
   assert(!fout.fail());
   fout << user;

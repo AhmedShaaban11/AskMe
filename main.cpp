@@ -2,6 +2,6 @@
 #include "SignUp/SignUp.h"
 
 int main() {
-  SignUp::Sign("Tmmam", "tmmam@gmail.com", "12345", false);
+  SignUp::Sign("kareem", "kareem@gmail.com", "1234", false);
   return 0;
 }
