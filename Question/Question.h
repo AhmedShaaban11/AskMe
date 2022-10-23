@@ -18,8 +18,8 @@ class Question {
   std::string question_;
   std::string answer_;
   std::vector<int> threads_;
-  friend std::ofstream& operator<<(std::ofstream &fout, const Question &question);
-  friend std::ifstream& operator>>(std::ifstream &fout, Question &question);
+  friend std::ofstream& operator<<(std::ofstream &fout, const Question &que);
+  friend std::ifstream& operator>>(std::ifstream &fout, Question &que);
   friend class QuesDb;
  public:
   Question();

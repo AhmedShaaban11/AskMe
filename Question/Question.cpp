@@ -15,28 +15,30 @@ Question::Question(const int &id, const int &parent_id,const int &from_id,
 
 Question::~Question() { threads_.clear(); }
 
-std::ofstream& operator<<(std::ofstream &fout, const Question &question) {
-  fout << question.id_ << ' ' << question.parent_id_ << ' '
-      << question.from_id_ << ' ' << question.to_id_ << ' '
-      << question.question_ << ' ' << question.answer_ << '\n';
-  for (const int &qu : question.threads_) {
+std::ofstream& operator<<(std::ofstream &fout, const Question &que) {
+  fout << que.id_ << ' ' << que.parent_id_ << ' '
+      << que.from_id_ << ' ' << que.to_id_ << '\n';
+  fout << que.question_ << '\n';
+  fout << que.answer_ << '\n';
+  for (const int &qu : que.threads_) {
     fout << qu << ' ';
   }
   fout << '\n';
   return fout;
 }
 
-std::ifstream& operator>>(std::ifstream &fin, Question &question) {
-  fin >> question.id_ >> question.parent_id_ >> question.from_id_
-      >> question.to_id_ >> question.question_ >> question.answer_;
+std::ifstream& operator>>(std::ifstream &fin, Question &que) {
+  fin >> que.id_ >> que.parent_id_ >> que.from_id_ >> que.to_id_;
   fin.ignore(); // Ignores \n at the end
+  getline(fin, que.question_);
+  getline(fin, que.answer_);
   // Getting Threads
   int thread;
   std::string holder;
   std::stringstream ss;
   getline(fin, holder);
   ss << holder;
-  while (ss >> thread) { question.threads_.push_back(thread); }
+  while (ss >> thread) { que.threads_.push_back(thread); }
   ss.clear();
   return fin;
 }

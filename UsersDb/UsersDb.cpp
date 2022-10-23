@@ -12,10 +12,10 @@
 
 const char KDataPath[] = "../data/users_data.txt";
 
-std::vector<User> data;
+std::vector<User> users_data;
 
 int UsersDb::GenerateId() {
-  return (int) data.size();
+  return (int) users_data.size();
 }
 
 std::string UsersDb::ClearEmailFromUpperLettersAndDomainDots(
@@ -37,7 +37,7 @@ std::string UsersDb::ClearEmailFromUpperLettersAndDomainDots(
 
 bool UsersDb::IsUsernameUsedBefore(const std::string &username) {
   LoadData();
-  for (const User &user : data) {
+  for (const User &user : users_data) {
     if (user.username_ == username) { return true; }
   }
   return false;
@@ -45,14 +45,14 @@ bool UsersDb::IsUsernameUsedBefore(const std::string &username) {
 
 bool UsersDb::IsEmailUsedBefore(const std::string &email) {
   LoadData();
-  for (const User &user : data) {
+  for (const User &user : users_data) {
     if (user.email_ == email) { return true; }
   }
   return false;
 }
 
 bool UsersDb::LoadData() {
-  if (!data.empty()) { // if data loaded before
+  if (!users_data.empty()) { // if users_data loaded before
     return false;
   }
   std::ifstream fin(KDataPath, std::ios::in);
@@ -60,7 +60,7 @@ bool UsersDb::LoadData() {
   while (fin.peek() != EOF) {
     User user;
     fin >> user;
-    data.push_back(user);
+    users_data.push_back(user);
   }
   fin.close();
   return true;
@@ -69,7 +69,7 @@ bool UsersDb::LoadData() {
 void UsersDb::SaveData() {
   std::ofstream fout(KDataPath, std::ios::out);
   assert(!fout.fail());
-  for (const User &user : data) {
+  for (const User &user : users_data) {
     fout << user;
   }
   fout.close();
@@ -92,14 +92,14 @@ bool UsersDb::AddUser(const std::string &username, const std::string &email,
   assert(!fout.fail());
   fout << user;
   fout.close();
-  data.push_back(user);
+  users_data.push_back(user);
   return true;
 }
 
 void UsersDb::ListUsersSystem() {
   LoadData();
   std::cout.fill('-');
-  for (const User &user : data) {
+  for (const User &user : users_data) {
     std::cout << "ID: ";
     std::cout.width(20);
     std::cout << std::left << user.id_;
