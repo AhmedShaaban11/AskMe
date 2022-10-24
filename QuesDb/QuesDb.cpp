@@ -5,6 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <queue>
 #include <cassert>
 #include "QuesDb.h"
 #include "../Question/Question.h"
@@ -12,6 +13,7 @@
 const char KDataPath[] = "../data/ques_data.txt";
 
 std::vector<Question> ques_data;
+std::queue<int> deleted_ques;
 
 int QuesDb::GenerateId() {
   return (int) ques_data.size();
@@ -82,6 +84,25 @@ bool QuesDb::AnswerQuestion(const int &id, const int &to_user_id,
     return false;
   }
   ques_data[id].answer_ = ans;
+  SaveData();
+  return true;
+}
+
+bool QuesDb::DeleteQuestion(const int &id, const int &from_id) {
+  LoadData();
+  if (IsIdOutOfRange(id)) {
+    std::cout << "Question (" << id << ") does not exist.\n";
+    return false;
+  } else if (IsDeletedQuestion(id)) {
+    std::cout << "Question (" << id << ") was Deleted.\n";
+    return false;
+  } else if (ques_data[id].from_id_ != from_id) {
+    std::cout << "Question (" << id << ") does not belong to you.\n";
+    return false;
+  }
+  Question que;
+  ques_data[id] = que;
+  deleted_ques.push(id);
   SaveData();
   return true;
 }

@@ -4,6 +4,6 @@
 #include "QuesDb/QuesDb.h"
 
 int main() {
-  QuesDb::AnswerQuestion(2, 3, "Oh");
+  QuesDb::DeleteQuestion(2, 4);
   return 0;
 }
