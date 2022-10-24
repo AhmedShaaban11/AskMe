@@ -12,7 +12,9 @@ class QuesDb {
   static bool IsIdOutOfRange(const int &id);
   static bool IsDeletedQuestion(const int &id);
   static bool IsIdExist(const int &id);
+  static bool IsParentQuestion(const int &id);
   static int GetDbSize();
+  static void PrintThreads(const int &id);
   static void DeleteThreads(const int &id);
   static void LoadData();
   static void SaveData();
@@ -22,6 +24,7 @@ class QuesDb {
   static bool AnswerQuestion(const int &id, const int &to_user_id,
                              const std::string &ans);
   static bool DeleteQuestion(const int &id, const int &from_id);
+  static void PrintFeed(const int &num_of_parent_ques);
 };
 
 

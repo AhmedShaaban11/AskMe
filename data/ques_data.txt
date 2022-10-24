@@ -1,11 +1,11 @@
 0 -1 1 2
 Is C++ a good start?
 Yes, of course
-1 2 
+1 
 1 0 3 2
 Why?
 You can learn many concepts with it.
-
+4 
 2 -1 5 3
 Do you want to use a Linux Distro?
 
@@ -14,11 +14,7 @@ Do you want to use a Linux Distro?
 Why you deleted the question?
 Annoying one
 
--1 -1 -1 -1
-
-
-
--1 -1 -1 -1
-
-
+4 1 4 2
+Like what?
+Procedural programming, oop, data types, and so many.
 
