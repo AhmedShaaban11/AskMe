@@ -157,17 +157,26 @@ void QuesDb::PrintThreads(const int &id) {
   if (ques_data[id].threads_.empty()) {
     return;
   }
-  std::vector<int> *threads = &ques_data[id].threads_;
   for (const int &thread_id : ques_data[id].threads_) {
     std::cout << "\tThread (" << thread_id << ") on "
         << (IsParentQuestion(id) ? "question" : "thread") << " ("
         << id << ") from ("
-        << ques_data[thread_id].from_id_ << ") to ("
-        << ques_data[thread_id].to_id_ << "):\n";
+        << ((ques_data[thread_id].from_id_ == -1) ?
+           "Anonymous" : std::to_string(ques_data[thread_id].from_id_))
+        << ") to (" << ques_data[thread_id].to_id_ << "):\n";
     std::cout << '\t' << ques_data[thread_id].question_ << '\n';
     std::cout << "\tAnswer: " << ques_data[thread_id].answer_ << "\n\n";
     PrintThreads(thread_id);
   }
+}
+
+void QuesDb::PrintParentQuestionMessage(const int &id) {
+  std::cout << "Question (" << id << ") from ("
+            << ((ques_data[id].from_id_ == -1) ?
+                "Anonymous" : std::to_string(ques_data[id].from_id_))
+            << ") to (" << ques_data[id].to_id_ << "):\n";
+  std::cout << ques_data[id].question_ << '\n';
+  std::cout << "Answer: " << ques_data[id].answer_ << "\n\n";
 }
 
 void QuesDb::PrintFeed(const int &num_of_parent_ques) {
@@ -175,13 +184,17 @@ void QuesDb::PrintFeed(const int &num_of_parent_ques) {
   int cnt = num_of_parent_ques;
   for (int id = GetDbSize() - 1; id >= 0 && cnt; --id) {
     if (IsParentQuestion(id)) {
-      std::cout << "Question (" << id << ") from ("
-          << ques_data[id].from_id_ << ") to ("
-          << ques_data[id].to_id_ << "):\n";
-      std::cout << ques_data[id].question_ << '\n';
-      std::cout << "Answer: " << ques_data[id].answer_ << "\n\n";
+      PrintParentQuestionMessage(id);
       PrintThreads(id);
       --cnt;
     }
+  }
+}
+
+void QuesDb::PrintQuestions(const std::vector<int> &ques) {
+  LoadData();
+  for (const int &id : ques) {
+    PrintParentQuestionMessage(id);
+    PrintThreads(id);
   }
 }

@@ -4,6 +4,6 @@
 #include "QuesDb/QuesDb.h"
 
 int main() {
-  QuesDb::PrintFeed(3);
+  QuesDb::PrintQuestions({0, 2});
   return 0;
 }

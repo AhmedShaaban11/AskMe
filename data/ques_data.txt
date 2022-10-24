@@ -14,7 +14,7 @@ Do you want to use a Linux Distro?
 Why you deleted the question?
 Annoying one
 
-4 1 4 2
+4 1 -1 2
 Like what?
 Procedural programming, oop, data types, and so many.
 

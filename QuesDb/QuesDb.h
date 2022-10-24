@@ -14,6 +14,7 @@ class QuesDb {
   static bool IsIdExist(const int &id);
   static bool IsParentQuestion(const int &id);
   static int GetDbSize();
+  static void PrintParentQuestionMessage(const int &id);
   static void PrintThreads(const int &id);
   static void DeleteThreads(const int &id);
   static void LoadData();
@@ -25,6 +26,7 @@ class QuesDb {
                              const std::string &ans);
   static bool DeleteQuestion(const int &id, const int &from_id);
   static void PrintFeed(const int &num_of_parent_ques);
+  static void PrintQuestions(const std::vector<int> &ques);
 };
 
 
