@@ -2,9 +2,12 @@
 // Created by ahmed on 10/20/2022.
 //
 
+#include <iostream>
 #include <fstream>
 #include <sstream>
 #include "User.h"
+#include "../UsersDb/UsersDb.h"
+#include "../QuesDb/QuesDb.h"
 
 User::User() : id_(-1), username_(""), email_(""), password_(""),
     is_accepting_anonymous_(false) { }
@@ -46,4 +49,28 @@ std::ifstream& operator>>(std::ifstream &fin, User &user) {
   while (ss >> qu) { user.ques_to_.push_back(qu); }
   ss.clear();
   return fin;
+}
+
+bool User::Ask(const int &to_id, const std::string &question,
+               const bool &is_anonymous, const int &parent_id) {
+  UsersDb::LoadData();
+  if (!UsersDb::IsIdExist(to_id)) {
+    std::cout << "User (" << to_id << ") does not exist.\n";
+    return false;
+  } else if (is_anonymous && !UsersDb::IsAcceptingAnonymous(to_id)) {
+    std::cout << "User (" << to_id << ") does not accept anonymous.\n";
+    return false;
+  }
+  int from_id;
+  if (is_anonymous) {
+    from_id = -1;
+  } else {
+    from_id = id_;
+  }
+  int que_id = QuesDb::AddQuestion(parent_id, from_id, to_id, question);
+  if (que_id == -1) { return false; }
+  ques_from_.push_back(que_id);
+  UsersDb::AddFromQuestion(id_, que_id);
+  UsersDb::AddToQuestion(to_id, que_id);
+  return true;
 }

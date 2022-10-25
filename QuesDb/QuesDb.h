@@ -20,7 +20,7 @@ class QuesDb {
   static void LoadData();
   static void SaveData();
  public:
-  static bool AddQuestion(const int &parent_id, const int &from_id,
+  static int AddQuestion(const int &parent_id, const int &from_id,
                           const int &to_id, const std::string &que);
   static bool AnswerQuestion(const int &id, const int &to_user_id,
                              const std::string &ans);

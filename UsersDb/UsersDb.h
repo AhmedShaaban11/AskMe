@@ -15,8 +15,13 @@ class UsersDb {
   static bool IsUsernameUsedBefore(const std::string &username);
   static bool IsEmailUsedBefore(const std::string &email);
   static int GenerateId();
+  static bool IsIdOutOfRange(const int &id);
  public:
-  static bool LoadData();
+  static void AddFromQuestion(const int &user_id, const int &que_id);
+  static void AddToQuestion(const int &user_id, const int &que_id);
+  static bool IsIdExist(const int &id);
+  static bool IsAcceptingAnonymous(const int &id);
+  static void LoadData();
   static void SaveData();
   static bool AddUser(const std::string &username, const std::string &email,
                       const std::string &password,

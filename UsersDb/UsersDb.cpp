@@ -51,19 +51,32 @@ bool UsersDb::IsEmailUsedBefore(const std::string &email) {
   return false;
 }
 
-bool UsersDb::LoadData() {
-  if (!users_data.empty()) { // if users_data loaded before
+bool UsersDb::IsIdOutOfRange(const int &id) {
+  return (id >= (int) users_data.size());
+}
+
+bool UsersDb::IsIdExist(const int &id) {
+  if (IsIdOutOfRange(id)) {
     return false;
   }
+  return true;
+}
+
+bool UsersDb::IsAcceptingAnonymous(const int &id) {
+  if (!IsIdExist(id)) { return false; }
+  return users_data[id].is_accepting_anonymous_;
+}
+
+void UsersDb::LoadData() {
   std::ifstream fin(KDataPath, std::ios::in);
   assert(!fin.fail());
+  users_data.clear();
   while (fin.peek() != EOF) {
     User user;
     fin >> user;
     users_data.push_back(user);
   }
   fin.close();
-  return true;
 }
 
 void UsersDb::SaveData() {
@@ -106,4 +119,16 @@ void UsersDb::ListUsersSystem() {
     std::cout << "Username: " << user.username_ << '\n';
   }
   std::cout.fill(' ');
+}
+
+void UsersDb::AddFromQuestion(const int &user_id, const int &que_id) {
+  LoadData();
+  users_data[user_id].ques_from_.push_back(que_id);
+  SaveData();
+}
+
+void UsersDb::AddToQuestion(const int &user_id, const int &que_id) {
+  LoadData();
+  users_data[user_id].ques_to_.push_back(que_id);
+  SaveData();
 }

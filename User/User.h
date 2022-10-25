@@ -22,6 +22,8 @@ class User {
   friend std::ifstream& operator>>(std::ifstream &fin, User &user);
   friend class UsersDb;
  public:
+  bool Ask(const int &to_id, const std::string &question,
+           const bool &is_anonymous = false, const int &parent_id = -1);
   User();
   User(const int &id, const std::string &username, const std::string &email,
        const std::string &password, const bool &is_accepting_anonymous);

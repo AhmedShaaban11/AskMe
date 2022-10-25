@@ -74,16 +74,16 @@ bool QuesDb::IsIdExist(const int &id) {
   return true;
 }
 
-bool QuesDb::AddQuestion(const int &parent_id, const int &from_id,
+int QuesDb::AddQuestion(const int &parent_id, const int &from_id,
                          const int &to_id, const std::string &question) {
   LoadData();
   std::ofstream fout(KDataPath, std::ios::out | std::ios::app);
   assert(!fout.fail());
   if (parent_id != -1 && !IsIdExist(parent_id)) {
-    return false;
+    return -1;
   } else if (parent_id != -1 && ques_data[parent_id].answer_.empty()) {
       std::cout << "Question (" << parent_id << ") not answered yet.\n";
-    return false;
+    return -1;
   }
   int id = GenerateId();
   Question que(id, parent_id, from_id, to_id, question);
@@ -97,7 +97,7 @@ bool QuesDb::AddQuestion(const int &parent_id, const int &from_id,
     ques_data[parent_id].threads_.push_back(id);
   }
   SaveData();
-  return true;
+  return id;
 }
 
 bool QuesDb::AnswerQuestion(const int &id, const int &to_user_id,
