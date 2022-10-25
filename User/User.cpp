@@ -74,3 +74,7 @@ bool User::Ask(const int &to_id, const std::string &question,
   UsersDb::AddToQuestion(to_id, que_id);
   return true;
 }
+
+bool User::Answer(const int &que_id, const std::string &answer) const {
+  return QuesDb::AnswerQuestion(que_id, id_, answer);
+}
