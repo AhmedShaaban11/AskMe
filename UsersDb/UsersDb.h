@@ -5,8 +5,10 @@
 #ifndef ASKME_USERSDB_H
 #define ASKME_USERSDB_H
 
+#include <string>
 #include "../User/User.h"
 
+class User;
 
 class UsersDb {
  private:
@@ -23,6 +25,9 @@ class UsersDb {
   static void DeleteToQuestion(const int &que_id, const int &to_id);
   static bool IsIdExist(const int &id);
   static bool IsAcceptingAnonymous(const int &id);
+  static int IsUsernameAndPasswordExist(const std::string &username,
+                                         const std::string &password);
+  static User LoadUser(const int &id);
   static void LoadData();
   static void SaveData();
   static bool AddUser(const std::string &username, const std::string &email,

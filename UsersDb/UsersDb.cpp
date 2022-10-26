@@ -137,15 +137,32 @@ void UsersDb::AddToQuestion(const int &user_id, const int &que_id) {
 void UsersDb::DeleteFromQuestion(const int &que_id, const int &from_id) {
   LoadData();
   std::vector<int> *ques_from = &users_data[from_id].ques_from_;
-  int idx = *std::find(ques_from->begin(), ques_from->end(), que_id);
-  ques_from->erase(ques_from->begin() + idx);
+  auto it = std::find(ques_from->begin(), ques_from->end(), que_id);
+  ques_from->erase(it);
   SaveData();
 }
 
 void UsersDb::DeleteToQuestion(const int &que_id, const int &to_id) {
   LoadData();
-  std::vector<int> *ques_to = &users_data[que_id].ques_to_;
-  int idx = *std::find(ques_to->begin(), ques_to->end(), que_id);
-  ques_to->erase(ques_to->begin() + idx);
+  std::vector<int> *ques_to = &users_data[to_id].ques_to_;
+  auto it = std::find(ques_to->begin(), ques_to->end(), que_id);
+  ques_to->erase(it);
   SaveData();
+}
+
+int UsersDb::IsUsernameAndPasswordExist(const std::string &username,
+                                         const std::string &password) {
+  LoadData();
+  for (const User &user : users_data) {
+    if (user.username_ == username && user.password_ == password) {
+      return user.id_;
+    }
+  }
+  return -1;
+}
+
+User UsersDb::LoadUser(const int &id) {
+  LoadData();
+  if (!IsIdExist(id)) { return User{}; }
+  return users_data[id];
 }

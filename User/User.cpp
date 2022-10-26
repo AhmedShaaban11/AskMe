@@ -83,7 +83,7 @@ bool User::Answer(const int &que_id, const std::string &answer) const {
 bool User::DeleteQuestion(const int &que_id) {
   auto it = std::find(ques_from_.begin(), ques_from_.end(), que_id);
   if (it == ques_from_.end()) { return false; }
-  ques_from_.erase(ques_from_.begin() + *it);
+  ques_from_.erase(it);
   int to_id = QuesDb::GetToUser(que_id, id_);
   bool is_deleted = QuesDb::DeleteQuestion(que_id);
   if (!is_deleted) { return false; }
