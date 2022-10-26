@@ -1,36 +1,4 @@
-0 -1 1 2
-Is C++ a good start?
-Yes, of course
-1 
-1 0 3 2
-Why?
-You can learn many concepts with it.
-4 
-2 -1 5 3
-Do you want to use a Linux Distro?
-
-
-3 -1 3 2
-Why you deleted the question?
-Annoying one
-
-4 1 -1 2
-Like what?
-Procedural programming, oop, data types, and so many.
-
-5 -1 0 2
-How are you?
-I'm fine. Thank you.
-
--1 -1 -1 -1
-
-
-
-7 -1 2 1
-Why using Yahoo?
-
-
-8 -1 1 2
-Hi, Mahmoud
-Hi
+0 -1 2 0
+Hello bro. I'm new here.
+Hello, I'm new too.
 

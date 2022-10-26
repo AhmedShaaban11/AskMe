@@ -22,3 +22,7 @@ bool LogIn::LogOutUser() {
   is_logged_in = false;
   return true;
 }
+
+bool LogIn::IsLoggedIn() {
+  return is_logged_in;
+}

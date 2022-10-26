@@ -110,7 +110,7 @@ bool UsersDb::AddUser(const std::string &username, const std::string &email,
   return true;
 }
 
-void UsersDb::ListUsersSystem() {
+void UsersDb::ListSystemUsers() {
   LoadData();
   std::cout.fill('-');
   for (const User &user : users_data) {

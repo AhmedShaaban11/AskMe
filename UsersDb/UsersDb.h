@@ -33,7 +33,7 @@ class UsersDb {
   static bool AddUser(const std::string &username, const std::string &email,
                       const std::string &password,
                       const bool &is_accepting_anonymous);
-  static void ListUsersSystem();
+  static void ListSystemUsers();
 };
 
 

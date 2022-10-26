@@ -14,6 +14,7 @@ class LogIn {
  public:
   static User LogInUser(const std::string &username, const std::string &password);
   static bool LogOutUser();
+  static bool IsLoggedIn();
 };
 
 
