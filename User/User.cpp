@@ -91,3 +91,11 @@ bool User::DeleteQuestion(const int &que_id) {
   UsersDb::DeleteToQuestion(que_id, to_id);
   return true;
 }
+
+void User::PrintQuestionsFrom() const {
+  QuesDb::PrintQuestions(ques_from_);
+}
+
+void User::PrintQuestionsTo() const {
+  QuesDb::PrintQuestions(ques_to_);
+}

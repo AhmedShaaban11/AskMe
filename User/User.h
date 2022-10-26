@@ -26,6 +26,8 @@ class User {
            const bool &is_anonymous = false, const int &parent_id = -1);
   bool Answer(const int &que_id, const std::string &answer) const;
   bool DeleteQuestion(const int &que_id);
+  void PrintQuestionsFrom() const;
+  void PrintQuestionsTo() const;
   User();
   User(const int &id, const std::string &username, const std::string &email,
        const std::string &password, const bool &is_accepting_anonymous);
