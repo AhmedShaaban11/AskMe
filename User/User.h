@@ -28,6 +28,7 @@ class User {
   bool DeleteQuestion(const int &que_id);
   void PrintQuestionsFrom() const;
   void PrintQuestionsTo() const;
+  bool LogOut();
   User();
   User(const int &id, const std::string &username, const std::string &email,
        const std::string &password, const bool &is_accepting_anonymous);

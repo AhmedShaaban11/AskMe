@@ -9,6 +9,7 @@
 #include "User.h"
 #include "../UsersDb/UsersDb.h"
 #include "../QuesDb/QuesDb.h"
+#include "../LogIn/LogIn.h"
 
 User::User() : id_(-1), username_(""), email_(""), password_(""),
     is_accepting_anonymous_(false) { }
@@ -98,4 +99,10 @@ void User::PrintQuestionsFrom() const {
 
 void User::PrintQuestionsTo() const {
   QuesDb::PrintQuestions(ques_to_);
+}
+
+bool User::LogOut() {
+  if (!LogIn::LogOutUser()) { return false; }
+  delete this;
+  return true;
 }
