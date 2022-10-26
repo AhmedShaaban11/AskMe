@@ -19,6 +19,8 @@ class UsersDb {
  public:
   static void AddFromQuestion(const int &user_id, const int &que_id);
   static void AddToQuestion(const int &user_id, const int &que_id);
+  static void DeleteFromQuestion(const int &que_id, const int &from_id);
+  static void DeleteToQuestion(const int &que_id, const int &to_id);
   static bool IsIdExist(const int &id);
   static bool IsAcceptingAnonymous(const int &id);
   static void LoadData();

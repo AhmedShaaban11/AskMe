@@ -5,6 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <algorithm>
 #include "User.h"
 #include "../UsersDb/UsersDb.h"
 #include "../QuesDb/QuesDb.h"
@@ -77,4 +78,16 @@ bool User::Ask(const int &to_id, const std::string &question,
 
 bool User::Answer(const int &que_id, const std::string &answer) const {
   return QuesDb::AnswerQuestion(que_id, id_, answer);
+}
+
+bool User::DeleteQuestion(const int &que_id) {
+  auto it = std::find(ques_from_.begin(), ques_from_.end(), que_id);
+  if (it == ques_from_.end()) { return false; }
+  ques_from_.erase(ques_from_.begin() + *it);
+  int to_id = QuesDb::GetToUser(que_id, id_);
+  bool is_deleted = QuesDb::DeleteQuestion(que_id);
+  if (!is_deleted) { return false; }
+  UsersDb::DeleteFromQuestion(que_id, id_);
+  UsersDb::DeleteToQuestion(que_id, to_id);
+  return true;
 }

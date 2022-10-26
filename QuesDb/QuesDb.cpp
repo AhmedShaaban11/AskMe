@@ -126,12 +126,9 @@ void QuesDb::DeleteThreads(const int &id) { // 4 5
   DeleteThreads(id); // Delete current threads
 }
 
-bool QuesDb::DeleteQuestion(const int &id, const int &from_id) {
+bool QuesDb::DeleteQuestion(const int &id) {
   LoadData();
   if (!IsIdExist(id)) {
-    return false;
-  } else if (ques_data[id].from_id_ != from_id) {
-    std::cout << "Question (" << id << ") does not belong to you.\n";
     return false;
   }
   int parent_id = ques_data[id].parent_id_;
@@ -197,4 +194,11 @@ void QuesDb::PrintQuestions(const std::vector<int> &ques) {
     PrintParentQuestionMessage(id);
     PrintThreads(id);
   }
+}
+
+int QuesDb::GetToUser(const int &que_id, const int &from_user_id) {
+  LoadData();
+  if (!IsIdExist(que_id)) { return -1; }
+  if (ques_data[que_id].from_id_ != from_user_id) { return -1; }
+  return ques_data[que_id].to_id_;
 }

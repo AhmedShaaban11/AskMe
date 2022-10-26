@@ -7,6 +7,7 @@
 #include <cassert>
 #include <vector>
 #include <string>
+#include <algorithm>
 #include "UsersDb.h"
 #include "../User/User.h"
 
@@ -130,5 +131,21 @@ void UsersDb::AddFromQuestion(const int &user_id, const int &que_id) {
 void UsersDb::AddToQuestion(const int &user_id, const int &que_id) {
   LoadData();
   users_data[user_id].ques_to_.push_back(que_id);
+  SaveData();
+}
+
+void UsersDb::DeleteFromQuestion(const int &que_id, const int &from_id) {
+  LoadData();
+  std::vector<int> *ques_from = &users_data[from_id].ques_from_;
+  int idx = *std::find(ques_from->begin(), ques_from->end(), que_id);
+  ques_from->erase(ques_from->begin() + idx);
+  SaveData();
+}
+
+void UsersDb::DeleteToQuestion(const int &que_id, const int &to_id) {
+  LoadData();
+  std::vector<int> *ques_to = &users_data[que_id].ques_to_;
+  int idx = *std::find(ques_to->begin(), ques_to->end(), que_id);
+  ques_to->erase(ques_to->begin() + idx);
   SaveData();
 }
