@@ -13,7 +13,7 @@ class Question {
   string qn_;
   string ans_;
  public:
-  explicit Question(const string &line, const string &delimiter = " ");
+  explicit Question(const string &line, const string &delimiter = ",");
   bool IsAnsEmpty() const;
   int GetId() const;
   void SetAns(const string &ans);
