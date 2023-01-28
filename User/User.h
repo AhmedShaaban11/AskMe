@@ -22,11 +22,11 @@ class User {
   map<int, Question*> from_ques_;
   map<int, Question*> to_ques_;
  public:
-  void FillWithLine(const string &line, const string &delimiter = " ");
+  explicit User(const string &line, const string &delimiter = " ");
   void FillFromQues(vector<Question*> &vec);
   void FillToQues(vector<Question*> &vec);
-  bool HasToQn(int n);
-  bool HasFromQn(int n);
+  bool HasToQn(int id);
+  bool HasFromQn(int id);
 };
 
 #endif

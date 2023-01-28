@@ -3,7 +3,7 @@
 #include "../Question/Question.h"
 #include "../GeneralFunctions/general_functions.h"
 
-void User::FillWithLine(const string &line, const string &delimiter) {
+User::User(const string &line, const string &delimiter) {
   vector<string> entries = LineToWords(line, delimiter);
   id_ = entries[0];
   username_ = entries[1];
