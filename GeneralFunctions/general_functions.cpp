@@ -24,3 +24,21 @@ vector<string> LineToWords(const string &line, const string &delimiter) {
   vec.push_back(line.substr(i));
   return vec;
 }
+
+string GetTxtTillDel(istream &in, const string &del) {
+  cout << "Enter Question text: (End with '" << del << "')\n";
+  char c;
+  int idx = 0;
+  string text, tmp;
+  while (tmp != del && idx < (int) del.size()) {
+    in.get(c);
+    if (c == del[idx]) {
+      tmp += c;
+      ++idx;
+      continue;
+    }
+    text += tmp += c;
+    tmp = "";
+  }
+  return text;
+}

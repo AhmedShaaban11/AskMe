@@ -8,14 +8,19 @@ using std::string;
 class Question {
  private:
   int id_;
-  int from_id_;
-  int to_id_;
+  string from_;
+  string to_;
   string qn_;
   string ans_;
  public:
-  explicit Question(const string &line, const string &delimiter = ",");
+  Question();
+  explicit Question(const string &line, const string &del = ",");
+  Question(int id, const string &from, const string &to, const string &text);
   bool IsAnsEmpty() const;
   int GetId() const;
+  string GetFrom() const;
+  string GetTo() const;
+  string ToString(const string &del = ",") const;
   void SetAns(const string &ans);
 };
 
