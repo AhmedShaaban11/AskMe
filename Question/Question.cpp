@@ -44,3 +44,15 @@ string Question::ToString(const string &del) const {
 void Question::SetAns(const string &ans) {
   ans_ = ans;
 }
+
+void Question::Print() const {
+  cout << "ID: " << id_ << "\n";
+  cout << "From: " << from_ << "\n";
+  cout << "To: " << to_ << "\n";
+  cout << "Question:\n" << qn_ << "\n";
+  if (ans_.empty()) {
+    cout << "Not Answered Yet!\n";
+  } else {
+    cout << "Answer:\n" << ans_ << "\n";
+  }
+}

@@ -21,6 +21,7 @@ class User {
   map<int, Question*> from_ques_;
   map<int, Question*> to_ques_;
  public:
+  User();
   User(const string &username, const string &email, const string &password);
   explicit User(const string &line, const string &delimiter = ",");
   void FillFromQues(vector<Question*> &vec);

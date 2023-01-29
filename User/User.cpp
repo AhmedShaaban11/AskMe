@@ -3,8 +3,12 @@
 #include "../Question/Question.h"
 #include "../GeneralFunctions/general_functions.h"
 
+User::User() {
+
+}
+
 User::User(const string &username, const string &email, const string &password)
-    : username_(username), email_(email), password_(password) {
+    : username_{username}, email_{email}, password_{password} {
 
 }
 

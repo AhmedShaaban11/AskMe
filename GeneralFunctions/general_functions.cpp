@@ -5,6 +5,7 @@ vector<string> FileToLines(const string &file_name) {
   ifstream fin(file_name);
   if (fin.fail()) {
     cout << "Error! cannot open " << file_name << "\n";
+    return vec;
   }
   string line;
   while (getline(fin, line)) {
@@ -17,8 +18,8 @@ vector<string> FileToLines(const string &file_name) {
 vector<string> LineToWords(const string &line, const string &delimiter) {
   vector<string> vec;
   int i = 0, j;
-  while ((j = (int) line.find(delimiter, i)) < (int) line.size()) {
-    vec.push_back(line.substr(i, j));
+  while ((j = (int) line.find(delimiter, i)) != string::npos) {
+    vec.push_back(line.substr(i, j - i));
     i = j + (int) delimiter.size();
   }
   vec.push_back(line.substr(i));

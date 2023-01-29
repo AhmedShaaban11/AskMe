@@ -2,85 +2,92 @@
 #include "../User/User.h"
 #include "../GeneralFunctions/general_functions.h"
 #include "../Question/Question.h"
+#include "../QuesManager/QuesManager.h"
 
-UsersManager::UsersManager(const string &file_name) : src_file_(file_name) {
+UsersManager::UsersManager() {
   Update();
+}
+
+UsersManager::~UsersManager() {
+  Clear();
 }
 
 void UsersManager::Update() {
   Clear();
-  vector<string> lines = FileToLines(src_file_);
+  vector<string> lines = FileToLines(KUsersSrcPath);
+  QuesManager ques;
   for (const string &line : lines) {
     User usr(line);
-    users.insert({usr.GetUsername(), usr});
-    emails.insert(usr.GetEmail());
+    users_.insert({usr.GetUsername(), usr});
+    emails_.insert(usr.GetEmail());
+
   }
 }
 
 void UsersManager::Clear() {
-  users.clear();
-  emails.clear();
+  users_.clear();
+  emails_.clear();
 }
 
 void UsersManager::Save() const {
-  std::ofstream fout(src_file_);
-  for (const auto &usr : users) {
-    fout << usr.second.ToString() << "\n";
+  ofstream fout(KUsersSrcPath);
+  for (const auto &p : users_) {
+    fout << p.second.ToString() << "\n";
   }
   fout.close();
 }
 
 bool UsersManager::IsUserFound(const string &username) {
-  return users.find(username) != users.end();
+  return users_.find(username) != users_.end();
 }
 
 bool UsersManager::IsEmailFound(const string &email) {
-  return emails.find(email) != emails.end();
-}
-
-auto UsersManager::Find(const string &username) {
-  return users.find(username)->second;
+  return emails_.find(email) != emails_.end();
 }
 
 bool UsersManager::AddFromQnToUser(int id, Question *qn, const string &username) {
-  auto it = Find(username);
   Update();
-  it.AddFromQn(id, qn);
+  auto it = users_.find(username);
+  if (it == users_.end()) { return false; }
+  it->second.AddFromQn(id, qn);
   Save();
   return true;
 }
 
 bool UsersManager::AddToQnToUser(int id, Question *qn, const string &username) {
-  auto it = Find(username);
   Update();
-  it.AddToQn(id, qn);
+  auto it = users_.find(username);
+  if (it == users_.end()) { return false; }
+  it->second.AddToQn(id, qn);
   Save();
   return true;
 }
 
-auto UsersManager::AccessUser() {
+User* UsersManager::AccessUser() {
   string username, pass;
-  cout << "Username:";
+  cout << "Username:\n";
   getline(cin, username);
-  cout << "Password:";
+  cout << "Password:\n";
   getline(cin, pass);
   Update();
   if (!IsUserFound(username)) {
     cout << "Error! Username isn't found\n";
+    return nullptr;
   }
-  if (Find(username).GetPassword() != pass) {
+  if (users_[username].GetPassword() != pass) {
     cout << "Error! Password isn't correct\n";
+    return nullptr;
   }
-  return Find(username);
+  return &users_[username];
 }
 
 void UsersManager::AddUser() {
   string username, email, pass;
-  cout << "Username:";
+  cout << "Username:\n";
   getline(cin, username);
-  cout << "Email:";
+  cout << "Email:\n";
   getline(cin, email);
-  cout << "Password:";
+  cout << "Password:\n";
   getline(cin, pass);
   Update();
   if (IsUserFound(username)) {
@@ -92,6 +99,6 @@ void UsersManager::AddUser() {
     return;
   }
   User usr(username, email, pass);
-  users.insert({username, usr});
+  users_.insert({username, usr});
   Save();
 }

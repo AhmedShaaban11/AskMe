@@ -12,7 +12,7 @@ QuesManager::~QuesManager() {
 
 void QuesManager::Update() {
   Clear();
-  vector<string> lines = FileToLines(KSrcPath);
+  vector<string> lines = FileToLines(KQuesSrcPath);
   for (const string &line : lines) {
     Question qn(line);
     ques_.insert({qn.GetId(), qn});
@@ -24,7 +24,7 @@ void QuesManager::Update() {
 }
 
 void QuesManager::Save() const {
-  ofstream fout(KSrcPath);
+  ofstream fout(KQuesSrcPath);
   for (const auto &p : ques_) {
     fout << p.second.ToString() << "\n";
   }
@@ -39,13 +39,14 @@ void QuesManager::Clear() {
 }
 
 void QuesManager::AddQn(const string &from, const string &to) {
-  string text = GetTxtTillDel();
+  string text = GetTxtTillDel(cin, "\n");
   Question qn(last_id_, from, to, text);
   Update();
   ques_.insert({last_id_, qn});
   Question *ptr_qn = &ques_[last_id_];
   ques_from_.insert({from, ptr_qn});
   ques_to_.insert({to, ptr_qn});
+  ++last_id_;
   Save();
 }
 
@@ -53,10 +54,13 @@ bool QuesManager::IsQnFound(int id) {
   return ques_.find(id) != ques_.end();
 }
 
-bool QuesManager::AnsQn(int id) {
+bool QuesManager::AnsQn(const string &username, int id) {
   Update();
   if (!IsQnFound(id)) {
     cout << "Error! Question isn't found\n";
+    return false;
+  } else if (ques_[id].GetTo() != username) {
+    cout << "Error! Question doesn't belong to you\n";
     return false;
   }
   string text = GetTxtTillDel();

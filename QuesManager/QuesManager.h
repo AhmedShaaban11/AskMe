@@ -17,7 +17,7 @@ using std::multimap;
 
 class Question;
 
-const char KSrcPath[] = "ques_data.csv";
+const char KQuesSrcPath[] = "../QuesManager/ques_data.csv";
 
 class QuesManager {
  private:
@@ -32,7 +32,7 @@ class QuesManager {
   void Save() const;
   void Clear();
   void AddQn(const string &from, const string &to);
-  bool AnsQn(int id);
+  bool AnsQn(const string &username, int id);
   vector<Question*> GetQuesFrom(const string &username);
   vector<Question*> GetQuesTo(const string &username);
   bool IsQnFound(int id);

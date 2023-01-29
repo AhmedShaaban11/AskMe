@@ -21,6 +21,7 @@ class Question {
   string GetFrom() const;
   string GetTo() const;
   string ToString(const string &del = ",") const;
+  void Print() const;
   void SetAns(const string &ans);
 };
 

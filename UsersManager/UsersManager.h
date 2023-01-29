@@ -14,25 +14,26 @@ using std::ofstream;
 using std::cin;
 using std::cout;
 
+const char KUsersSrcPath[] = "../UsersManager/users_data.csv";
+
 class User;
 class Question;
 
 class UsersManager {
  private:
-  string src_file_;
-  map<string, User> users;
-  set<string> emails;
+  map<string, User> users_;
+  set<string> emails_;
  public:
-  explicit UsersManager(const string &file_name);
+  UsersManager();
+  ~UsersManager();
   void Update();
   void Clear();
   void Save() const;
   bool IsUserFound(const string &username);
   bool IsEmailFound(const string &email);
-  auto Find(const string &username);
   bool AddFromQnToUser(int id, Question *qn, const string &username);
   bool AddToQnToUser(int id, Question *qn, const string &username);
-  auto AccessUser();
+  User* AccessUser();
   void AddUser();
 };
 

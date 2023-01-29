@@ -1,6 +1,8 @@
 #include <iostream>
+#include "Program/Program.h"
 
 int main() {
-  std::cout << "Hello, World!" << std::endl;
+  Program app;
+  while (app.Run()) { }
   return 0;
 }
