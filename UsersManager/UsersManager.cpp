@@ -45,24 +45,6 @@ bool UsersManager::IsEmailFound(const string &email) {
   return emails_.find(email) != emails_.end();
 }
 
-bool UsersManager::AddFromQnToUser(int id, Question *qn, const string &username) {
-  Update();
-  auto it = users_.find(username);
-  if (it == users_.end()) { return false; }
-  it->second.AddFromQn(id, qn);
-  Save();
-  return true;
-}
-
-bool UsersManager::AddToQnToUser(int id, Question *qn, const string &username) {
-  Update();
-  auto it = users_.find(username);
-  if (it == users_.end()) { return false; }
-  it->second.AddToQn(id, qn);
-  Save();
-  return true;
-}
-
 User* UsersManager::AccessUser() {
   string username, pass;
   cout << "Username:\n";

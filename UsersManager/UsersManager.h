@@ -31,8 +31,6 @@ class UsersManager {
   void Save() const;
   bool IsUserFound(const string &username);
   bool IsEmailFound(const string &email);
-  bool AddFromQnToUser(int id, Question *qn, const string &username);
-  bool AddToQnToUser(int id, Question *qn, const string &username);
   User* AccessUser();
   void AddUser();
 };
