@@ -83,10 +83,12 @@ bool Program::Run() {
     } else if (c == 2) {
       for (const Question* const &qn : ques.GetQuesFrom(usr->GetUsername())) {
         qn->Print();
+        cout << KSmallSeparator;
       }
     } else if (c == 3) {
       for (const Question* const &qn : ques.GetQuesTo(usr->GetUsername())) {
         qn->Print();
+        cout << KSmallSeparator;
       }
     } else {
       usr = nullptr;
