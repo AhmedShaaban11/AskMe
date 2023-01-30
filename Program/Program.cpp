@@ -74,13 +74,24 @@ bool Program::Run() {
     PrintMenu();
     int c = GetChoice(0, 6);
     if (c == 0) {
-      string to_usr;
-      cout << "Enter Receiver Username:\n";
-      getline(cin, to_usr);
-      if (!users.IsUserFound(to_usr)) {
-        cout << "Error! User not found\n";
+      string s;
+      do {
+        cout << "Thread Question? (y/n)\n";
+        getline(cin, s);
+      } while (s != "y" && s != "n");
+      if (s == "y") {
+        cout << "Type Parent ID:\n";
+        int parent_id = GetChoice(0, INT_MAX);
+        ques.AddTh(usr->GetUsername(), parent_id);
       } else {
-        ques.AddQn(usr->GetUsername(), to_usr);
+        string to_usr;
+        cout << "Enter Receiver Username:\n";
+        getline(cin, to_usr);
+        if (!users.IsUserFound(to_usr)) {
+          cout << "Error! User not found\n";
+        } else {
+          ques.AddQn(usr->GetUsername(), to_usr);
+        }
       }
     } else if (c == 1) {
       cout << "Enter Question ID:\n";

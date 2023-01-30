@@ -19,8 +19,11 @@ void QuesManager::Update() {
     Question *ptr_qn = &ques_[qn.GetId()];
     ques_from_.insert({qn.GetFrom(), ptr_qn});
     ques_to_.insert({qn.GetTo(), ptr_qn});
+    if (qn.GetParentId() != -1) {
+      threads_[qn.GetParentId()].insert(qn.GetId());
+    }
+    last_id_ = qn.GetId() + 1;
   }
-  last_id_ = (int) ques_.size();
 }
 
 void QuesManager::Save() const {
@@ -36,18 +39,43 @@ void QuesManager::Clear() {
   ques_.clear();
   ques_from_.clear();
   ques_to_.clear();
+  threads_.clear();
 }
 
-void QuesManager::AddQn(const string &from, const string &to) {
-  string text = GetTxtTillDel(cin, "\n");
-  Question qn(last_id_, from, to, text);
+bool QuesManager::InsertQn(const string &from, const string &to, int parent_id) {
+  if (from == to) {
+    cout << "Error! Sender cannot be the Receiver.\n";
+    return false;
+  }
+  string txt = GetTxtTillDel(cin, "\n");
+  Question qn(last_id_, parent_id, from, to, txt);
   Update();
   ques_.insert({last_id_, qn});
   Question *ptr_qn = &ques_[last_id_];
   ques_from_.insert({from, ptr_qn});
   ques_to_.insert({to, ptr_qn});
+  if (parent_id != -1) {
+    threads_[parent_id].insert(last_id_);
+  }
   ++last_id_;
   Save();
+  return true;
+}
+
+bool QuesManager::AddTh(const string &from, int parent_id) {
+  Update();
+  if (ques_.find(parent_id) == ques_.end()) {
+    cout << "Error! Parent Question (" << parent_id << ") isn't found.\n";
+    return false;
+  } else if (ques_[parent_id].IsAnsEmpty()) {
+    cout << "Error! Parent Question (" << parent_id << ") isn't answered yet.\n";
+    return false;
+  }
+  return InsertQn(from, ques_[parent_id].GetTo(), parent_id);
+}
+
+bool QuesManager::AddQn(const string &from, const string &to) {
+  return InsertQn(from, to);
 }
 
 bool QuesManager::IsQnFound(int id) {
@@ -90,10 +118,18 @@ vector<Question*> QuesManager::GetQuesTo(const string &username) {
   return res;
 }
 
+void QuesManager::DeleteThreads(int parent_id) {
+  for (auto &th : threads_[parent_id]) {
+    DeleteThreads(th);
+    ques_.erase(th);
+  }
+}
+
 void QuesManager::DeleteQuesFrom(const string &username) {
   Update();
   auto it = ques_from_.begin();
   while ((it = ques_from_.find(username)) != ques_from_.end()) {
+    DeleteThreads(it->second->GetId());
     ques_.erase(it->second->GetId());
     ques_from_.erase(it);
   }
@@ -104,6 +140,7 @@ void QuesManager::DeleteQuesTo(const string &username) {
   Update();
   auto it = ques_to_.begin();
   while ((it = ques_to_.find(username)) != ques_to_.end()) {
+    DeleteThreads(it->second->GetId());
     ques_.erase(it->second->GetId());
     ques_to_.erase(it);
   }
