@@ -20,7 +20,6 @@ void UsersManager::Update() {
     User usr(line);
     users_.insert({usr.GetUsername(), usr});
     emails_.insert(usr.GetEmail());
-
   }
 }
 
