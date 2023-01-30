@@ -26,6 +26,7 @@ void Program::PrintMenu() const {
       "Print Questions From Me",
       "Print Question To Me",
       "Print Available Users",
+      "Delete your Account",
       "LogOut"
   };
   for (int i = 0; i < (int) vec.size(); ++i) {
@@ -50,6 +51,11 @@ int Program::GetChoice(int begin, int end) const {
   return c;
 }
 
+void Program::LogOut() {
+  usr = nullptr;
+  is_user_in = false;
+}
+
 bool Program::Run() {
   if (!is_user_in) {
     PrintSignMenu();
@@ -66,7 +72,7 @@ bool Program::Run() {
     }
   } else {
     PrintMenu();
-    int c = GetChoice(0, 5);
+    int c = GetChoice(0, 6);
     if (c == 0) {
       string to_usr;
       cout << "Enter Receiver Username:\n";
@@ -94,9 +100,23 @@ bool Program::Run() {
       cout << "Users:\n";
       cout << "------\n";
       users.PrintUsers();
+    } else if (c == 5) {
+      string s;
+      do {
+        cout << "Are you sure? (y/n)\n";
+        getline(cin, s);
+        if (s == "n") {
+          break;
+        } else if (s == "y") {
+          string username = usr->GetUsername();
+          if (!users.DeleteUser(username)) { break; }
+          ques.DeleteQuesFrom(username);
+          ques.DeleteQuesTo(username);
+          LogOut();
+        }
+      } while (s != "y" && s != "n");
     } else {
-      usr = nullptr;
-      is_user_in = false;
+      LogOut();
     }
   }
   cout << KBigSeparator;

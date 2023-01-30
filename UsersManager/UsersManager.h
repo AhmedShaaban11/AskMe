@@ -33,6 +33,7 @@ class UsersManager {
   bool IsEmailFound(const string &email);
   User* AccessUser();
   void AddUser();
+  bool DeleteUser(const string &username);
   void PrintUsers() const;
 };
 

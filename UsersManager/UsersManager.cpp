@@ -84,6 +84,28 @@ void UsersManager::AddUser() {
   Save();
 }
 
+bool UsersManager::DeleteUser(const string &username) {
+  Update();
+  if (!IsUserFound(username)) {
+    cout << "Error! Username isn't found\n";
+    return false;
+  }
+  cout << "Enter your Password:\n";
+  string pass;
+  getline(cin, pass);
+  User *usr = &users_[username];
+  if (usr->GetPassword() != pass) {
+    cout << "Error! Password isn't correct\n";
+    return false;
+  }
+  Update();
+  emails_.erase(usr->GetEmail());
+  users_.erase(username);
+  usr = nullptr;
+  Save();
+  return true;
+}
+
 void UsersManager::PrintUsers() const {
   for (const auto &p : users_) {
     cout << p.first << '\n';

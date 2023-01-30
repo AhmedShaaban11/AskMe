@@ -19,6 +19,7 @@ class Program {
   void PrintSignMenu() const;
   void PrintMenu() const;
   int GetChoice(int begin, int end) const;
+  void LogOut();
   bool Run();
 };
 

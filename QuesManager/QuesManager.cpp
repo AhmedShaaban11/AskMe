@@ -89,3 +89,23 @@ vector<Question*> QuesManager::GetQuesTo(const string &username) {
   }
   return res;
 }
+
+void QuesManager::DeleteQuesFrom(const string &username) {
+  Update();
+  auto it = ques_from_.begin();
+  while ((it = ques_from_.find(username)) != ques_from_.end()) {
+    ques_.erase(it->second->GetId());
+    ques_from_.erase(it);
+  }
+  Save();
+}
+
+void QuesManager::DeleteQuesTo(const string &username) {
+  Update();
+  auto it = ques_to_.begin();
+  while ((it = ques_to_.find(username)) != ques_to_.end()) {
+    ques_.erase(it->second->GetId());
+    ques_to_.erase(it);
+  }
+  Save();
+}
