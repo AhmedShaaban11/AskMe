@@ -86,10 +86,14 @@ bool Program::Run() {
         cout << KSmallSeparator;
       }
     } else if (c == 3) {
-      for (const Question* const &qn : ques.GetQuesTo(usr->GetUsername())) {
+      for (const Question *const &qn: ques.GetQuesTo(usr->GetUsername())) {
         qn->Print();
         cout << KSmallSeparator;
       }
+    } else if (c == 4) {
+      cout << "Users:\n";
+      cout << "------\n";
+      users.PrintUsers();
     } else {
       usr = nullptr;
       is_user_in = false;

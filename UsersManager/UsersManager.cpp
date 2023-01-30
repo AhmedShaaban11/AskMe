@@ -83,3 +83,9 @@ void UsersManager::AddUser() {
   users_.insert({username, usr});
   Save();
 }
+
+void UsersManager::PrintUsers() const {
+  for (const auto &p : users_) {
+    cout << p.first << '\n';
+  }
+}
