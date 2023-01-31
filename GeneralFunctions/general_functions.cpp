@@ -58,3 +58,18 @@ bool gpm::YesOrNoQn(const string &msg) {
   } while (c != 'y' && c != 'n');
   return c == 'y';
 }
+
+int gpm::InputInt(const string &msg, int lb, int ub) {
+  int n;
+  do {
+    cin.clear();
+    cout << msg << " (";
+    cout << (lb == INT_MIN ? "-INF" : std::to_string(lb));
+    cout << ":";
+    cout << (ub == INT_MAX ? "INF" : std::to_string(ub));
+    cout << ")\n";
+    cin >> n;
+    cin.ignore(10000, '\n');
+  } while (cin.fail());
+  return n;
+}

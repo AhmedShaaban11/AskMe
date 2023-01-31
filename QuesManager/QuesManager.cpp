@@ -69,12 +69,7 @@ bool QuesManager::AddQn(bool is_from_anonymous, const string &from, const string
   if (!to.empty()) {
     return InsertQn(parent_id, is_from_anonymous, from, to);
   }
-  do {
-    cin.clear();
-    cout << "Enter Parent Question ID: (-1 If none)\n";
-    cin >> parent_id;
-    cin.ignore(10000, '\n');
-  } while (cin.fail());
+  parent_id = gpm::InputInt("Enter Parent Question ID:", 0);
   Update();
   if (ques_.find(parent_id) == ques_.end()) {
     cout << "Error! Parent Question (" << parent_id << ") isn't found.\n";
@@ -97,6 +92,9 @@ bool QuesManager::AnsQn(const string &username, int id) {
     return false;
   } else if (ques_[id].GetTo() != username) {
     cout << "Error! Question doesn't belong to you\n";
+    return false;
+  } else if (!ques_[id].IsAnsEmpty() &&
+      !gpm::YesOrNoQn("Modifying Existing Answer?")) {
     return false;
   }
   string text = gpm::GetTxtTillDel();
@@ -178,7 +176,7 @@ void QuesManager::DeleteQuesTo(const string &username) {
   Update();
   auto it = ques_to_.find(username);
   for (; it != ques_to_.end(); ++it) {
-    if (username != it->first)
+    if (username != it->first) { break; }
     DeleteThreads(it->second->GetId());
     ques_.erase(it->second->GetId());
   }

@@ -81,7 +81,7 @@ bool Program::Run() {
       }
       bool is_anonymous = gpm::YesOrNoQn("Anonymous Question?");
       if (!is_thread && !users.IsUserFound(to_usr)) {
-        cout << "Error! User not found\n";
+        cout << "Error! User " << to_usr << " not found.\n";
       } else if (is_anonymous && !users.IsUserAcceptingAnonymous(to_usr)) {
         cout << "Error! " << to_usr << " doesn't accepting anonymous questions.\n";
       } else {
@@ -103,17 +103,11 @@ bool Program::Run() {
       ques.DeleteQn(id, usr);
     } else if (c == 6) {
       string s;
-      do {
-        cout << "Are you sure? (y/n)\n";
-        getline(cin, s);
-        if (s == "n") {
-          break;
-        } else if (s == "y") {
-          if (!users.DeleteUser(usr)) { break; }
-          ques.DeleteAllQues(usr);
-          LogOut();
-        }
-      } while (s != "y" && s != "n");
+      bool is_sure = gpm::YesOrNoQn("Are you sure?");
+      if (is_sure && users.DeleteUser(usr)) {
+        ques.DeleteAllQues(usr);
+        LogOut();
+      }
     } else {
       LogOut();
     }
