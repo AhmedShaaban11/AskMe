@@ -30,6 +30,9 @@ class QuesManager {
   map<int, set<int>> threads_;
   bool InsertQn(const string &from, const string &to,
                 bool is_from_anonymous = false, int parent_id = -1);
+  void DeleteThreads(int parent_id);
+  void DeleteQuesFrom(const string &username);
+  void DeleteQuesTo(const string &username);
  public:
   QuesManager();
   ~QuesManager();
@@ -44,9 +47,7 @@ class QuesManager {
   void PrintQuesTo(const string &username) const;
   bool IsQnFound(int id) const;
   bool DeleteQn(int id, const string &username);
-  void DeleteThreads(int parent_id);
-  void DeleteQuesFrom(const string &username);
-  void DeleteQuesTo(const string &username);
+  void DeleteAllQues(const string &username);
 };
 
 #endif

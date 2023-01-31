@@ -178,3 +178,8 @@ void QuesManager::DeleteQuesTo(const string &username) {
   }
   Save();
 }
+
+void QuesManager::DeleteAllQues(const string &username) {
+  DeleteQuesFrom(username);
+  DeleteQuesTo(username);
+}

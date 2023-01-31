@@ -133,10 +133,9 @@ bool Program::Run() {
         if (s == "n") {
           break;
         } else if (s == "y") {
-          string username = usr->GetUsername();
+          string username = usr->GetUsername(); // usr might be then pointing to null
           if (!users.DeleteUser(username)) { break; }
-          ques.DeleteQuesFrom(username);
-          ques.DeleteQuesTo(username);
+          ques.DeleteAllQues(username);
           LogOut();
         }
       } while (s != "y" && s != "n");
