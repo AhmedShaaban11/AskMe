@@ -32,7 +32,7 @@ class UsersManager {
   bool IsUserFound(const string &username) const;
   bool IsEmailFound(const string &email) const;
   bool IsUserAcceptingAnonymous(const string &username) const;
-  User* AccessUser();
+  string AccessUser();
   void AddUser();
   bool DeleteUser(const string &username);
   void PrintUsers() const;

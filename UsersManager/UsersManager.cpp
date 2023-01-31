@@ -52,7 +52,7 @@ bool UsersManager::IsUserAcceptingAnonymous(const string &username) const {
   return users_.find(username)->second.IsAcceptingAnonymous();
 }
 
-User* UsersManager::AccessUser() {
+string UsersManager::AccessUser() {
   string username, pass;
   cout << "Username:\n";
   getline(cin, username);
@@ -61,13 +61,13 @@ User* UsersManager::AccessUser() {
   Update();
   if (!IsUserFound(username)) {
     cout << "Error! Username isn't found\n";
-    return nullptr;
+    return {};
   }
-  if (users_[username].GetPassword() != pass) {
+  if (users_.find(username)->second.GetPassword() != pass) {
     cout << "Error! Password isn't correct\n";
-    return nullptr;
+    return {};
   }
-  return &users_[username];
+  return users_.find(username)->first;
 }
 
 void UsersManager::AddUser() {

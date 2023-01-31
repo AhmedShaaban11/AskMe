@@ -6,7 +6,7 @@
 
 class Program {
  private:
-  User *usr;
+  string usr;
   UsersManager users;
   QuesManager ques;
   bool is_user_in;

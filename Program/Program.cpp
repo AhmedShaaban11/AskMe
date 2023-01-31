@@ -4,11 +4,11 @@
 #include "../User/User.h"
 
 Program::Program() : is_user_in{false} {
-  usr = nullptr;
+
 }
 
 Program::~Program() {
-  usr = nullptr;
+
 }
 
 void Program::PrintSignMenu() const {
@@ -53,7 +53,7 @@ int Program::GetChoice(int begin, int end) const {
 }
 
 void Program::LogOut() {
-  usr = nullptr;
+  usr.clear();
   is_user_in = false;
 }
 
@@ -65,9 +65,7 @@ bool Program::Run() {
       users.AddUser();
     } else if (c == 1) {
       usr = users.AccessUser();
-      if (usr) {
-        is_user_in = true;
-      }
+      if (!usr.empty()) { is_user_in = true; }
     } else {
       return false;
     }
@@ -96,7 +94,7 @@ bool Program::Run() {
         } else if (a == "y" && !users.IsUserAcceptingAnonymous(to_usr)) {
           cout << "Error! User doesn't accept anonymous questions.\n";
         } else {
-          ques.AddTh(usr->GetUsername(), parent_id, a == "y");
+          ques.AddTh(usr, parent_id, a == "y");
         }
       } else {
         cout << "Enter Receiver Username:\n";
@@ -106,17 +104,17 @@ bool Program::Run() {
         } else if (a == "y" && !users.IsUserAcceptingAnonymous(to_usr)) {
           cout << "Error! User doesn't accept anonymous questions.\n";
         } else {
-          ques.AddQn(usr->GetUsername(), to_usr, a == "y");
+          ques.AddQn(usr, to_usr, a == "y");
         }
       }
     } else if (c == 1) {
       cout << "Enter Question ID:\n";
       int id = GetChoice(0, INT_MAX);
-      ques.AnsQn(usr->GetUsername(), id);
+      ques.AnsQn(usr, id);
     } else if (c == 2) {
-      ques.PrintQuesFrom(usr->GetUsername());
+      ques.PrintQuesFrom(usr);
     } else if (c == 3) {
-      ques.PrintQuesTo(usr->GetUsername());
+      ques.PrintQuesTo(usr);
     } else if (c == 4) {
       cout << "Users:\n";
       cout << "------\n";
@@ -124,7 +122,7 @@ bool Program::Run() {
     } else if (c == 5) {
       cout << "Enter Question ID:\n";
       int id = GetChoice(0, INT_MAX);
-      ques.DeleteQn(id, usr->GetUsername());
+      ques.DeleteQn(id, usr);
     } else if (c == 6) {
       string s;
       do {
@@ -133,9 +131,8 @@ bool Program::Run() {
         if (s == "n") {
           break;
         } else if (s == "y") {
-          string username = usr->GetUsername(); // usr might be then pointing to null
-          if (!users.DeleteUser(username)) { break; }
-          ques.DeleteAllQues(username);
+          if (!users.DeleteUser(usr)) { break; }
+          ques.DeleteAllQues(usr);
           LogOut();
         }
       } while (s != "y" && s != "n");
