@@ -3,7 +3,7 @@
 #include "../Question/Question.h"
 #include "../User/User.h"
 
-Program::Program() : is_user_in{false} {
+Program::Program() {
 
 }
 
@@ -36,60 +36,59 @@ void Program::PrintMenu() const {
   gpm::PrintSeparator('=');
 }
 
-int Program::GetChoice(int begin, int end) const {
-  cout << "Enter a number from " << begin << " to " << end << " :\n";
-  int c;
-  cin >> c;
-  while (cin.fail() || c < begin || c > end) {
-    cout << "Error! Invalid value\n";
-    cout << "Enter a number from " << begin << " to " << end << " :\n";
-    cin.clear();
-    cin.sync();
-    cin >> c;
-  }
-  cin.sync();
-  gpm::PrintSeparator('=');
-  return c;
+bool Program::IsUserIn() const {
+  return !usr.empty();
 }
 
 void Program::LogOut() {
   usr.clear();
-  is_user_in = false;
+}
+
+bool Program::ContinueRun() const {
+  gpm::PrintSeparator('=');
+  return true;
 }
 
 bool Program::Run() {
-  if (!is_user_in) {
+  if (!IsUserIn()) {
     PrintSignMenu();
-    int c = GetChoice(0, 2);
+    int c = gpm::InputInt("Enter a number:", 0, 2);
     if (c == 0) {
       users.AddUser();
     } else if (c == 1) {
       usr = users.AccessUser();
-      if (!usr.empty()) { is_user_in = true; }
     } else {
       return false;
     }
   } else {
     PrintMenu();
-    int c = GetChoice(0, 7);
+    int c = gpm::InputInt("Enter a number:", 0, 7);
     if (c == 0) {
+      int parent_id = -1;
       string to_usr;
       bool is_thread = gpm::YesOrNoQn("Thread Question?");
-      if (!is_thread) {
-        cout << "Enter Receiver Username:\n";
-        getline(cin, to_usr);
+      if (is_thread) {
+        parent_id = gpm::InputInt("Enter Parent Question ID:", 0);
+        if (!ques.IsQnFound(parent_id)) {
+          cout << "Error! Question (" << parent_id << ") isn't found.\n";
+          return ContinueRun();
+        }
+        to_usr = ques.GetToUsr(parent_id);
+      } else {
+        to_usr = gpm::InputString("Enter Receiver Username:");
+        if (!users.IsUserFound(to_usr)) {
+          cout << "Error! User " << to_usr << " not found.\n";
+          return ContinueRun();
+        }
       }
       bool is_anonymous = gpm::YesOrNoQn("Anonymous Question?");
-      if (!is_thread && !users.IsUserFound(to_usr)) {
-        cout << "Error! User " << to_usr << " not found.\n";
-      } else if (is_anonymous && !users.IsUserAcceptingAnonymous(to_usr)) {
+      if (is_anonymous && !users.IsUserAcceptingAnonymous(to_usr)) {
         cout << "Error! " << to_usr << " doesn't accepting anonymous questions.\n";
-      } else {
-        ques.AddQn(is_anonymous, usr, to_usr);
+        return ContinueRun();
       }
+      ques.AddQn(parent_id, is_anonymous, usr, to_usr);
     } else if (c == 1) {
-      cout << "Enter Question ID:\n";
-      int id = GetChoice(0, INT_MAX);
+      int id = gpm::InputInt("Enter Question ID:", 0);
       ques.AnsQn(usr, id);
     } else if (c == 2) {
       ques.PrintQuesFrom(usr);
@@ -98,8 +97,7 @@ bool Program::Run() {
     } else if (c == 4) {
       users.PrintUsers();
     } else if (c == 5) {
-      cout << "Enter Question ID:\n";
-      int id = GetChoice(0, INT_MAX);
+      int id = gpm::InputInt("Enter Question ID:", 0);
       ques.DeleteQn(id, usr);
     } else if (c == 6) {
       string s;
@@ -112,6 +110,5 @@ bool Program::Run() {
       LogOut();
     }
   }
-  gpm::PrintSeparator('=');
-  return true;
+  return ContinueRun();
 }

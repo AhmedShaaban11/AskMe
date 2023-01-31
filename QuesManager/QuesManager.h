@@ -36,7 +36,8 @@ class QuesManager {
   void Update();
   void Save() const;
   void Clear();
-  bool AddQn(bool is_from_anonymous, const string &from, const string &to = "");
+  bool AddQn(int parent_id, bool is_from_anonymous,
+             const string &from, const string &to);
   bool AnsQn(const string &username, int id);
   string GetToUsr(int id) const;
   void PrintQuesFrom(const string &username) const;

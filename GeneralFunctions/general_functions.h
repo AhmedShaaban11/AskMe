@@ -17,6 +17,7 @@ namespace gpm {
   string GetTxtTillDel(istream &in = cin, const string &del = "\n.\n");
   bool YesOrNoQn(const string &msg);
   int InputInt(const string &msg, int lb = INT_MIN, int ub = INT_MAX);
+  string InputString(const string &msg);
   template<class T> string ToString(const string &del, const T &head) {
     return head;
   }

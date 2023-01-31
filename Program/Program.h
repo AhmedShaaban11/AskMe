@@ -9,14 +9,14 @@ class Program {
   string usr;
   UsersManager users;
   QuesManager ques;
-  bool is_user_in;
  public:
   Program();
   ~Program();
   void PrintSignMenu() const;
   void PrintMenu() const;
-  int GetChoice(int begin, int end) const;
+  bool IsUserIn() const;
   void LogOut();
+  bool ContinueRun() const;
   bool Run();
 };
 

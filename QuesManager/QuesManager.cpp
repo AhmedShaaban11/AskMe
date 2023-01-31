@@ -55,21 +55,13 @@ bool QuesManager::InsertQn(int parent_id, bool is_from_anonymous,
   return true;
 }
 
-bool QuesManager::AddQn(bool is_from_anonymous, const string &from, const string &to) {
-  int parent_id = -1;
-  if (!to.empty()) {
-    return InsertQn(parent_id, is_from_anonymous, from, to);
-  }
-  parent_id = gpm::InputInt("Enter Parent Question ID:", 0);
+bool QuesManager::AddQn(int parent_id, bool is_from_anonymous, const string &from, const string &to) {
   Update();
-  if (ques_.find(parent_id) == ques_.end()) {
-    cout << "Error! Parent Question (" << parent_id << ") isn't found.\n";
-    return false;
-  } else if (ques_[parent_id].IsAnsEmpty()) {
+  if (parent_id != -1 && ques_[parent_id].IsAnsEmpty()) {
     cout << "Error! Parent Question (" << parent_id << ") isn't answered yet.\n";
     return false;
   }
-  return InsertQn(parent_id, is_from_anonymous, from, ques_[parent_id].GetTo());
+  return InsertQn(parent_id, is_from_anonymous, from, to);
 }
 
 bool QuesManager::IsQnFound(int id) const {
@@ -128,7 +120,7 @@ bool QuesManager::DeleteQn(int id, const string &username) {
   if (!IsQnFound(id)) {
     cout << "Error! Question isn't found.\n";
     return false;
-  } else if (username != ques_.find(id)->second.GetFrom() ||
+  } else if (username != ques_.find(id)->second.GetFrom() &&
       username != ques_.find(id)->second.GetTo()) {
     cout << "Error! Question doesn't belong to you.\n";
     return false;

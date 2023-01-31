@@ -61,15 +61,27 @@ bool gpm::YesOrNoQn(const string &msg) {
 
 int gpm::InputInt(const string &msg, int lb, int ub) {
   int n;
+  bool is_fail;
   do {
-    cin.clear();
+    is_fail = false;
     cout << msg << " (";
     cout << (lb == INT_MIN ? "-INF" : std::to_string(lb));
     cout << ":";
     cout << (ub == INT_MAX ? "INF" : std::to_string(ub));
     cout << ")\n";
     cin >> n;
+    if (cin.fail()) {
+      cin.clear();
+      is_fail = true;
+    }
     cin.ignore(10000, '\n');
-  } while (cin.fail());
+  } while (is_fail || n < lb || n > ub);
   return n;
+}
+
+string gpm::InputString(const string &msg) {
+  string s;
+  cout << msg << "\n";
+  getline(cin, s);
+  return s;
 }
