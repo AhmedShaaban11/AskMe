@@ -11,8 +11,7 @@ using std::cout;
 using std::cin;
 
 namespace gpm {
-  const char KSmallSeparator[] = "------------------------------";
-  const char KBigSeparator[] = "==============================";
+  void PrintSeparator(char s = '-', int len = 30);
   vector<string> FileToLines(const string &file_name);
   vector<string> LineToWords(const string &line, const string &delimiter);
   string GetTxtTillDel(istream &in = cin, const string &del = "\n.\n");

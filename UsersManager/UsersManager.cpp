@@ -120,7 +120,7 @@ bool UsersManager::DeleteUser(const string &username) {
 
 void UsersManager::PrintUsers() const {
   cout << "Users:\n";
-  cout << "---------\n";
+  gpm::PrintSeparator('-', 10);
   for (const auto &p : users_) {
     cout << p.first << '\n';
   }

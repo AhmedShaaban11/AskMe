@@ -1,5 +1,9 @@
 #include "general_functions.h"
 
+void gpm::PrintSeparator(char s, int len) {
+  cout << string(len, s) << "\n";
+}
+
 vector<string> gpm::FileToLines(const string &file_name) {
   vector<string> vec;
   ifstream fin(file_name);

@@ -16,7 +16,7 @@ void Program::PrintSignMenu() const {
   for (int i = 0; i < (int) vec.size(); ++i) {
     cout << i << " - " << vec[i] << "\n";
   }
-  cout << gpm::KBigSeparator << "\n";
+  gpm::PrintSeparator('=');
 }
 
 void Program::PrintMenu() const {
@@ -33,7 +33,7 @@ void Program::PrintMenu() const {
   for (int i = 0; i < (int) vec.size(); ++i) {
     cout << i << " - " << vec[i] << "\n";
   }
-  cout << gpm::KBigSeparator << "\n";
+  gpm::PrintSeparator('=');
 }
 
 int Program::GetChoice(int begin, int end) const {
@@ -48,7 +48,7 @@ int Program::GetChoice(int begin, int end) const {
     cin >> c;
   }
   cin.sync();
-  cout << gpm::KBigSeparator << "\n";
+  gpm::PrintSeparator('=');
   return c;
 }
 
@@ -138,6 +138,6 @@ bool Program::Run() {
       LogOut();
     }
   }
-  cout << gpm::KBigSeparator << "\n";
+  gpm::PrintSeparator('=');
   return true;
 }

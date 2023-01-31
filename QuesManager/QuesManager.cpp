@@ -113,12 +113,12 @@ void QuesManager::PrintQuesFrom(const string &username) const {
   auto it = ques_from_.find(username);
   if (it != ques_from_.end()) {
     cout << "Questions From " << username << ":\n";
-    cout << "----------\n";
+    gpm::PrintSeparator('-', 20);
   }
   for (; it != ques_from_.end(); ++it) {
     if (it->first != username) { break; }
     it->second->Print();
-    cout << gpm::KSmallSeparator << "\n";
+    gpm::PrintSeparator('-');
   }
 }
 
@@ -126,12 +126,12 @@ void QuesManager::PrintQuesTo(const string &username) const {
   auto it = ques_to_.find(username);
   if (it != ques_to_.end()) {
     cout << "Questions To " << username << ":\n";
-    cout << "----------\n";
+    gpm::PrintSeparator('-', 20);
   }
   for (; it != ques_to_.end(); ++it) {
     if (it->first != username) { break; }
     it->second->Print();
-    cout << gpm::KSmallSeparator << "\n";
+    gpm::PrintSeparator('-');
   }
 }
 
