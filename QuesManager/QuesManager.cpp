@@ -1,4 +1,3 @@
-#include <cstdlib>
 #include "QuesManager.h"
 #include "../Question/Question.h"
 #include "../GeneralFunctions/general_functions.h"
@@ -17,9 +16,6 @@ void QuesManager::Update() {
   for (const string &line : lines) {
     Question qn(line);
     ques_.insert({qn.GetId(), qn});
-    Question *ptr_qn = &ques_[qn.GetId()];
-    ques_from_.insert({qn.GetFrom(), ptr_qn});
-    ques_to_.insert({qn.GetTo(), ptr_qn});
     if (qn.GetParentId() != -1) {
       threads_[qn.GetParentId()].insert(qn.GetId());
     }
@@ -38,8 +34,6 @@ void QuesManager::Save() const {
 void QuesManager::Clear() {
   last_id_ = 0;
   ques_.clear();
-  ques_from_.clear();
-  ques_to_.clear();
   threads_.clear();
 }
 
@@ -53,9 +47,6 @@ bool QuesManager::InsertQn(int parent_id, bool is_from_anonymous,
   Question qn(last_id_, parent_id, is_from_anonymous, from, to, txt);
   Update();
   ques_.insert({last_id_, qn});
-  Question *ptr_qn = &ques_[last_id_];
-  ques_from_.insert({from, ptr_qn});
-  ques_to_.insert({to, ptr_qn});
   if (parent_id != -1) {
     threads_[parent_id].insert(last_id_);
   }
@@ -113,27 +104,21 @@ string QuesManager::GetToUsr(int id) const {
 }
 
 void QuesManager::PrintQuesFrom(const string &username) const {
-  auto it = ques_from_.find(username);
-  if (it != ques_from_.end()) {
-    cout << "Questions From " << username << ":\n";
-    gpm::PrintSeparator('-', 20);
-  }
-  for (; it != ques_from_.end(); ++it) {
-    if (it->first != username) { break; }
-    it->second->Print();
+  cout << "Questions From " << username << ":\n";
+  gpm::PrintSeparator('-', 20);
+  for (const auto &p : ques_) {
+    if (username != p.second.GetFrom()) { continue; }
+    p.second.Print();
     gpm::PrintSeparator('-');
   }
 }
 
 void QuesManager::PrintQuesTo(const string &username) const {
-  auto it = ques_to_.find(username);
-  if (it != ques_to_.end()) {
-    cout << "Questions To " << username << ":\n";
-    gpm::PrintSeparator('-', 20);
-  }
-  for (; it != ques_to_.end(); ++it) {
-    if (it->first != username) { break; }
-    it->second->Print();
+  cout << "Questions To " << username << ":\n";
+  gpm::PrintSeparator('-', 20);
+  for (const auto &p : ques_) {
+    if (username != p.second.GetTo()) { continue; }
+    p.second.Print();
     gpm::PrintSeparator('-');
   }
 }
@@ -163,22 +148,24 @@ void QuesManager::DeleteThreads(int parent_id) {
 
 void QuesManager::DeleteQuesFrom(const string &username) {
   Update();
-  auto it = ques_from_.find(username);
-  for (; it != ques_from_.end(); ++it) {
-    if (username != it->first) { break; }
-    DeleteThreads(it->second->GetId());
-    ques_.erase(it->second->GetId());
+  auto prv = ques_.begin();
+  for (auto it = ques_.begin(); it != ques_.end();) {
+    prv = it++;
+    if (username != prv->second.GetFrom()) { continue; }
+    DeleteThreads(prv->first);
+    ques_.erase(prv);
   }
   Save();
 }
 
 void QuesManager::DeleteQuesTo(const string &username) {
   Update();
-  auto it = ques_to_.find(username);
-  for (; it != ques_to_.end(); ++it) {
-    if (username != it->first) { break; }
-    DeleteThreads(it->second->GetId());
-    ques_.erase(it->second->GetId());
+  auto prv = ques_.begin();
+  for (auto it = ques_.begin(); it != ques_.end();) {
+    prv = it++;
+    if (username != prv->second.GetTo()) { continue; }
+    DeleteThreads(prv->first);
+    ques_.erase(prv);
   }
   Save();
 }

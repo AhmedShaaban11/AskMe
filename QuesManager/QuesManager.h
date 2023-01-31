@@ -14,7 +14,6 @@ using std::vector;
 using std::ofstream;
 using std::cin;
 using std::cout;
-using std::multimap;
 using std::set;
 
 class Question;
@@ -25,8 +24,6 @@ class QuesManager {
  private:
   int last_id_;
   map<int, Question> ques_;
-  multimap<string, Question*> ques_from_;
-  multimap<string, Question*> ques_to_;
   map<int, set<int>> threads_;
   void DeleteThreads(int parent_id);
   void DeleteQuesFrom(const string &username);
