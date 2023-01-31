@@ -28,19 +28,18 @@ class QuesManager {
   multimap<string, Question*> ques_from_;
   multimap<string, Question*> ques_to_;
   map<int, set<int>> threads_;
-  bool InsertQn(const string &from, const string &to,
-                bool is_from_anonymous = false, int parent_id = -1);
   void DeleteThreads(int parent_id);
   void DeleteQuesFrom(const string &username);
   void DeleteQuesTo(const string &username);
+  bool InsertQn(int parent_id, bool is_from_anonymous,
+                const string &from, const string &to);
  public:
   QuesManager();
   ~QuesManager();
   void Update();
   void Save() const;
   void Clear();
-  bool AddQn(const string &from, const string &to, bool is_from_anonymous = false);
-  bool AddTh(const string &from, int parent_id, bool is_from_anonymous = false);
+  bool AddQn(bool is_from_anonymous, const string &from, const string &to = "");
   bool AnsQn(const string &username, int id);
   string GetToUsr(int id) const;
   void PrintQuesFrom(const string &username) const;

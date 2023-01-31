@@ -47,3 +47,14 @@ string gpm::GetTxtTillDel(istream &in, const string &del) {
   }
   return text;
 }
+
+bool gpm::YesOrNoQn(const string &msg) {
+  char c;
+  do {
+    cout << msg << " (y/n)\n";
+    cin >> c;
+    c = (char) tolower(c);
+    cin.ignore(10000, '\n');
+  } while (c != 'y' && c != 'n');
+  return c == 'y';
+}

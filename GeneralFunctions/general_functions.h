@@ -15,6 +15,7 @@ namespace gpm {
   vector<string> FileToLines(const string &file_name);
   vector<string> LineToWords(const string &line, const string &delimiter);
   string GetTxtTillDel(istream &in = cin, const string &del = "\n.\n");
+  bool YesOrNoQn(const string &msg);
   template<class T> string ToString(const string &del, const T &head) {
     return head;
   }

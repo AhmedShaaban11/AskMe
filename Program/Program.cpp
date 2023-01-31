@@ -73,39 +73,19 @@ bool Program::Run() {
     PrintMenu();
     int c = GetChoice(0, 7);
     if (c == 0) {
-      string s;
-      do {
-        cout << "Thread Question? (y/n)\n";
-        getline(cin, s);
-      } while (s != "y" && s != "n");
-      string a;
-      do {
-        cout << "Are you Anonymous? (y/n)\n";
-        getline(cin, a);
-      } while (a != "y" && a != "n");
       string to_usr;
-      int parent_id = -1;
-      if (s == "y") {
-        cout << "Type Parent ID:\n";
-        parent_id = GetChoice(0, INT_MAX);
-        to_usr = ques.GetToUsr(parent_id);
-        if (!users.IsUserFound(to_usr)) {
-          cout << "Error! User not found\n";
-        } else if (a == "y" && !users.IsUserAcceptingAnonymous(to_usr)) {
-          cout << "Error! User doesn't accept anonymous questions.\n";
-        } else {
-          ques.AddTh(usr, parent_id, a == "y");
-        }
-      } else {
+      bool is_thread = gpm::YesOrNoQn("Thread Question?");
+      if (!is_thread) {
         cout << "Enter Receiver Username:\n";
         getline(cin, to_usr);
-        if (!users.IsUserFound(to_usr)) {
-          cout << "Error! User not found\n";
-        } else if (a == "y" && !users.IsUserAcceptingAnonymous(to_usr)) {
-          cout << "Error! User doesn't accept anonymous questions.\n";
-        } else {
-          ques.AddQn(usr, to_usr, a == "y");
-        }
+      }
+      bool is_anonymous = gpm::YesOrNoQn("Anonymous Question?");
+      if (!is_thread && !users.IsUserFound(to_usr)) {
+        cout << "Error! User not found\n";
+      } else if (is_anonymous && !users.IsUserAcceptingAnonymous(to_usr)) {
+        cout << "Error! " << to_usr << " doesn't accepting anonymous questions.\n";
+      } else {
+        ques.AddQn(is_anonymous, usr, to_usr);
       }
     } else if (c == 1) {
       cout << "Enter Question ID:\n";

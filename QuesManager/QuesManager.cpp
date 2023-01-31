@@ -1,8 +1,9 @@
+#include <cstdlib>
 #include "QuesManager.h"
 #include "../Question/Question.h"
 #include "../GeneralFunctions/general_functions.h"
 
-QuesManager::QuesManager() {
+QuesManager::QuesManager() : last_id_{0} {
   Update();
 }
 
@@ -42,8 +43,8 @@ void QuesManager::Clear() {
   threads_.clear();
 }
 
-bool QuesManager::InsertQn(const string &from, const string &to,
-                           bool is_from_anonymous, int parent_id) {
+bool QuesManager::InsertQn(int parent_id, bool is_from_anonymous,
+                           const string &from, const string &to) {
   if (from == to) {
     cout << "Error! Sender cannot be the Receiver.\n";
     return false;
@@ -63,8 +64,17 @@ bool QuesManager::InsertQn(const string &from, const string &to,
   return true;
 }
 
-bool QuesManager::AddTh(const string &from, int parent_id,
-                        bool is_from_anonymous) {
+bool QuesManager::AddQn(bool is_from_anonymous, const string &from, const string &to) {
+  int parent_id = -1;
+  if (!to.empty()) {
+    return InsertQn(parent_id, is_from_anonymous, from, to);
+  }
+  do {
+    cin.clear();
+    cout << "Enter Parent Question ID: (-1 If none)\n";
+    cin >> parent_id;
+    cin.ignore(10000, '\n');
+  } while (cin.fail());
   Update();
   if (ques_.find(parent_id) == ques_.end()) {
     cout << "Error! Parent Question (" << parent_id << ") isn't found.\n";
@@ -73,12 +83,7 @@ bool QuesManager::AddTh(const string &from, int parent_id,
     cout << "Error! Parent Question (" << parent_id << ") isn't answered yet.\n";
     return false;
   }
-  return InsertQn(from, ques_[parent_id].GetTo(), is_from_anonymous, parent_id);
-}
-
-bool QuesManager::AddQn(const string &from, const string &to,
-                        bool is_from_anonymous) {
-  return InsertQn(from, to, is_from_anonymous);
+  return InsertQn(parent_id, is_from_anonymous, from, ques_[parent_id].GetTo());
 }
 
 bool QuesManager::IsQnFound(int id) const {
@@ -140,7 +145,8 @@ bool QuesManager::DeleteQn(int id, const string &username) {
   if (!IsQnFound(id)) {
     cout << "Error! Question isn't found.\n";
     return false;
-  } else if (username != ques_[id].GetFrom() || username != ques_[id].GetTo()) {
+  } else if (username != ques_.find(id)->second.GetFrom() ||
+      username != ques_.find(id)->second.GetTo()) {
     cout << "Error! Question doesn't belong to you.\n";
     return false;
   }
@@ -159,22 +165,22 @@ void QuesManager::DeleteThreads(int parent_id) {
 
 void QuesManager::DeleteQuesFrom(const string &username) {
   Update();
-  auto it = ques_from_.begin();
-  while ((it = ques_from_.find(username)) != ques_from_.end()) {
+  auto it = ques_from_.find(username);
+  for (; it != ques_from_.end(); ++it) {
+    if (username != it->first) { break; }
     DeleteThreads(it->second->GetId());
     ques_.erase(it->second->GetId());
-    ques_from_.erase(it);
   }
   Save();
 }
 
 void QuesManager::DeleteQuesTo(const string &username) {
   Update();
-  auto it = ques_to_.begin();
-  while ((it = ques_to_.find(username)) != ques_to_.end()) {
+  auto it = ques_to_.find(username);
+  for (; it != ques_to_.end(); ++it) {
+    if (username != it->first)
     DeleteThreads(it->second->GetId());
     ques_.erase(it->second->GetId());
-    ques_to_.erase(it);
   }
   Save();
 }
