@@ -42,13 +42,14 @@ void QuesManager::Clear() {
   threads_.clear();
 }
 
-bool QuesManager::InsertQn(const string &from, const string &to, int parent_id) {
+bool QuesManager::InsertQn(const string &from, const string &to,
+                           bool is_from_anonymous, int parent_id) {
   if (from == to) {
     cout << "Error! Sender cannot be the Receiver.\n";
     return false;
   }
   string txt = GetTxtTillDel(cin, "\n");
-  Question qn(last_id_, parent_id, from, to, txt);
+  Question qn(last_id_, parent_id, is_from_anonymous, from, to, txt);
   Update();
   ques_.insert({last_id_, qn});
   Question *ptr_qn = &ques_[last_id_];
@@ -62,7 +63,8 @@ bool QuesManager::InsertQn(const string &from, const string &to, int parent_id) 
   return true;
 }
 
-bool QuesManager::AddTh(const string &from, int parent_id) {
+bool QuesManager::AddTh(const string &from, int parent_id,
+                        bool is_from_anonymous) {
   Update();
   if (ques_.find(parent_id) == ques_.end()) {
     cout << "Error! Parent Question (" << parent_id << ") isn't found.\n";
@@ -71,14 +73,15 @@ bool QuesManager::AddTh(const string &from, int parent_id) {
     cout << "Error! Parent Question (" << parent_id << ") isn't answered yet.\n";
     return false;
   }
-  return InsertQn(from, ques_[parent_id].GetTo(), parent_id);
+  return InsertQn(from, ques_[parent_id].GetTo(), is_from_anonymous, parent_id);
 }
 
-bool QuesManager::AddQn(const string &from, const string &to) {
-  return InsertQn(from, to);
+bool QuesManager::AddQn(const string &from, const string &to,
+                        bool is_from_anonymous) {
+  return InsertQn(from, to, is_from_anonymous);
 }
 
-bool QuesManager::IsQnFound(int id) {
+bool QuesManager::IsQnFound(int id) const {
   return ques_.find(id) != ques_.end();
 }
 
@@ -96,6 +99,14 @@ bool QuesManager::AnsQn(const string &username, int id) {
   ques_[id].SetAns(text);
   Save();
   return true;
+}
+
+string QuesManager::GetToUsr(int id) const {
+  if (!IsQnFound(id)) {
+    cout << "Error! Question isn't found\n";
+    return {};
+  }
+  return ques_.find(id)->second.GetTo();
 }
 
 vector<Question*> QuesManager::GetQuesFrom(const string &username) {

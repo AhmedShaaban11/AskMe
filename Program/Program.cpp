@@ -79,18 +79,33 @@ bool Program::Run() {
         cout << "Thread Question? (y/n)\n";
         getline(cin, s);
       } while (s != "y" && s != "n");
+      string a;
+      do {
+        cout << "Are you Anonymous? (y/n)\n";
+        getline(cin, a);
+      } while (a != "y" && a != "n");
+      string to_usr;
+      int parent_id = -1;
       if (s == "y") {
         cout << "Type Parent ID:\n";
-        int parent_id = GetChoice(0, INT_MAX);
-        ques.AddTh(usr->GetUsername(), parent_id);
+        parent_id = GetChoice(0, INT_MAX);
+        to_usr = ques.GetToUsr(parent_id);
+        if (!users.IsUserFound(to_usr)) {
+          cout << "Error! User not found\n";
+        } else if (a == "y" && !users.IsUserAcceptingAnonymous(to_usr)) {
+          cout << "Error! User doesn't accept anonymous questions.\n";
+        } else {
+          ques.AddTh(usr->GetUsername(), parent_id, a == "y");
+        }
       } else {
-        string to_usr;
         cout << "Enter Receiver Username:\n";
         getline(cin, to_usr);
         if (!users.IsUserFound(to_usr)) {
           cout << "Error! User not found\n";
+        } else if (a == "y" && !users.IsUserAcceptingAnonymous(to_usr)) {
+          cout << "Error! User doesn't accept anonymous questions.\n";
         } else {
-          ques.AddQn(usr->GetUsername(), to_usr);
+          ques.AddQn(usr->GetUsername(), to_usr, a == "y");
         }
       }
     } else if (c == 1) {

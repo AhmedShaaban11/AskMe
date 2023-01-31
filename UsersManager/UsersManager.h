@@ -29,8 +29,9 @@ class UsersManager {
   void Update();
   void Clear();
   void Save() const;
-  bool IsUserFound(const string &username);
-  bool IsEmailFound(const string &email);
+  bool IsUserFound(const string &username) const;
+  bool IsEmailFound(const string &email) const;
+  bool IsUserAcceptingAnonymous(const string &username) const;
   User* AccessUser();
   void AddUser();
   bool DeleteUser(const string &username);

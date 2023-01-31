@@ -36,12 +36,20 @@ void UsersManager::Save() const {
   fout.close();
 }
 
-bool UsersManager::IsUserFound(const string &username) {
+bool UsersManager::IsUserFound(const string &username) const {
   return users_.find(username) != users_.end();
 }
 
-bool UsersManager::IsEmailFound(const string &email) {
+bool UsersManager::IsEmailFound(const string &email) const {
   return emails_.find(email) != emails_.end();
+}
+
+bool UsersManager::IsUserAcceptingAnonymous(const string &username) const {
+  if (!IsUserFound(username)) {
+    cout << "Error! User isn't found.\n";
+    return false;
+  }
+  return users_.find(username)->second.IsAcceptingAnonymous();
 }
 
 User* UsersManager::AccessUser() {
@@ -70,6 +78,11 @@ void UsersManager::AddUser() {
   getline(cin, email);
   cout << "Password:\n";
   getline(cin, pass);
+  string a;
+  do {
+    cout << "Accepting Anonymous? (y/n)\n";
+    getline(cin, a);
+  } while (a != "y" && a != "n");
   Update();
   if (IsUserFound(username)) {
     cout << "Error! Username used before\n";
@@ -79,7 +92,7 @@ void UsersManager::AddUser() {
     cout << "Error! Email used before\n";
     return;
   }
-  User usr(username, email, pass);
+  User usr(username, email, pass, a == "y");
   users_.insert({username, usr});
   Save();
 }

@@ -7,8 +7,10 @@ User::User() {
 
 }
 
-User::User(const string &username, const string &email, const string &password)
-    : username_{username}, email_{email}, password_{password} {
+User::User(const string &username, const string &email, const string &password,
+           bool is_accepting_anonymous)
+    : username_{username}, email_{email}, password_{password},
+    is_accepting_anonymous_{is_accepting_anonymous} {
 
 }
 
@@ -17,6 +19,7 @@ User::User(const string &line, const string &delimiter) {
   username_ = entries[0];
   email_ = entries[1];
   password_ = entries[2];
+  is_accepting_anonymous_ = (bool) std::stoi(entries[3]);
 }
 
 string User::GetUsername() const {
@@ -31,8 +34,13 @@ string User::GetPassword() const {
   return password_;
 }
 
+bool User::IsAcceptingAnonymous() const {
+  return is_accepting_anonymous_;
+}
+
 string User::ToString(const string &del) const {
   string res;
-  res = username_ + del + email_ + del + password_;
+  res = username_ + del + email_ + del + password_ + del +
+      std::to_string(is_accepting_anonymous_);
   return res;
 }
