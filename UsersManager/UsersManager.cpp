@@ -15,7 +15,6 @@ UsersManager::~UsersManager() {
 void UsersManager::Update() {
   Clear();
   vector<string> lines = gpm::FileToLines(KUsersSrcPath);
-  QuesManager ques;
   for (const string &line : lines) {
     User usr(line);
     users_.insert({usr.GetUsername(), usr});
@@ -106,20 +105,22 @@ bool UsersManager::DeleteUser(const string &username) {
   cout << "Enter your Password:\n";
   string pass;
   getline(cin, pass);
-  User *usr = &users_[username];
+  const User *usr = &users_.find(username)->second;
   if (usr->GetPassword() != pass) {
     cout << "Error! Password isn't correct\n";
     return false;
   }
   Update();
   emails_.erase(usr->GetEmail());
-  users_.erase(username);
+  users_.erase(usr->GetUsername());
   usr = nullptr;
   Save();
   return true;
 }
 
 void UsersManager::PrintUsers() const {
+  cout << "Users:\n";
+  cout << "---------\n";
   for (const auto &p : users_) {
     cout << p.first << '\n';
   }

@@ -116,8 +116,6 @@ bool Program::Run() {
     } else if (c == 3) {
       ques.PrintQuesTo(usr);
     } else if (c == 4) {
-      cout << "Users:\n";
-      cout << "------\n";
       users.PrintUsers();
     } else if (c == 5) {
       cout << "Enter Question ID:\n";
