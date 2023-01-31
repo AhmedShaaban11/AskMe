@@ -43,6 +43,7 @@ class QuesManager {
   vector<Question*> GetQuesFrom(const string &username);
   vector<Question*> GetQuesTo(const string &username);
   bool IsQnFound(int id) const;
+  bool DeleteQn(int id, const string &username);
   void DeleteThreads(int parent_id);
   void DeleteQuesFrom(const string &username);
   void DeleteQuesTo(const string &username);

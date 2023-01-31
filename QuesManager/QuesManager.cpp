@@ -129,6 +129,21 @@ vector<Question*> QuesManager::GetQuesTo(const string &username) {
   return res;
 }
 
+bool QuesManager::DeleteQn(int id, const string &username) {
+  Update();
+  if (!IsQnFound(id)) {
+    cout << "Error! Question isn't found.\n";
+    return false;
+  } else if (username != ques_[id].GetFrom() || username != ques_[id].GetTo()) {
+    cout << "Error! Question doesn't belong to you.\n";
+    return false;
+  }
+  DeleteThreads(id);
+  ques_.erase(id);
+  Save();
+  return true;
+}
+
 void QuesManager::DeleteThreads(int parent_id) {
   for (auto &th : threads_[parent_id]) {
     DeleteThreads(th);

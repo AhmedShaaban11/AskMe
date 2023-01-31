@@ -26,6 +26,7 @@ void Program::PrintMenu() const {
       "Print Questions From Me",
       "Print Question To Me",
       "Print Available Users",
+      "Delete Question",
       "Delete your Account",
       "LogOut"
   };
@@ -72,7 +73,7 @@ bool Program::Run() {
     }
   } else {
     PrintMenu();
-    int c = GetChoice(0, 6);
+    int c = GetChoice(0, 7);
     if (c == 0) {
       string s;
       do {
@@ -127,6 +128,10 @@ bool Program::Run() {
       cout << "------\n";
       users.PrintUsers();
     } else if (c == 5) {
+      cout << "Enter Question ID:\n";
+      int id = GetChoice(0, INT_MAX);
+      ques.DeleteQn(id, usr->GetUsername());
+    } else if (c == 6) {
       string s;
       do {
         cout << "Are you sure? (y/n)\n";
