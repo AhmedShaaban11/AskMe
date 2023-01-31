@@ -16,7 +16,7 @@ void Program::PrintSignMenu() const {
   for (int i = 0; i < (int) vec.size(); ++i) {
     cout << i << " - " << vec[i] << "\n";
   }
-  cout << KBigSeparator;
+  cout << KBigSeparator << "\n";
 }
 
 void Program::PrintMenu() const {
@@ -33,7 +33,7 @@ void Program::PrintMenu() const {
   for (int i = 0; i < (int) vec.size(); ++i) {
     cout << i << " - " << vec[i] << "\n";
   }
-  cout << KBigSeparator;
+  cout << KBigSeparator << "\n";
 }
 
 int Program::GetChoice(int begin, int end) const {
@@ -48,7 +48,7 @@ int Program::GetChoice(int begin, int end) const {
     cin >> c;
   }
   cin.sync();
-  cout << KBigSeparator;
+  cout << KBigSeparator << "\n";
   return c;
 }
 
@@ -114,15 +114,9 @@ bool Program::Run() {
       int id = GetChoice(0, INT_MAX);
       ques.AnsQn(usr->GetUsername(), id);
     } else if (c == 2) {
-      for (const Question* const &qn : ques.GetQuesFrom(usr->GetUsername())) {
-        qn->Print();
-        cout << KSmallSeparator;
-      }
+      ques.PrintQuesFrom(usr->GetUsername());
     } else if (c == 3) {
-      for (const Question *const &qn: ques.GetQuesTo(usr->GetUsername())) {
-        qn->Print();
-        cout << KSmallSeparator;
-      }
+      ques.PrintQuesTo(usr->GetUsername());
     } else if (c == 4) {
       cout << "Users:\n";
       cout << "------\n";
@@ -150,6 +144,6 @@ bool Program::Run() {
       LogOut();
     }
   }
-  cout << KBigSeparator;
+  cout << KBigSeparator << "\n";
   return true;
 }

@@ -4,9 +4,6 @@
 #include "../QuesManager/QuesManager.h"
 #include "../UsersManager/UsersManager.h"
 
-const char KSmallSeparator[] = "------------------------------\n";
-const char KBigSeparator[] = "==============================\n";
-
 class Program {
  private:
   User *usr;

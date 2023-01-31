@@ -109,24 +109,30 @@ string QuesManager::GetToUsr(int id) const {
   return ques_.find(id)->second.GetTo();
 }
 
-vector<Question*> QuesManager::GetQuesFrom(const string &username) {
-  vector<Question*> res;
+void QuesManager::PrintQuesFrom(const string &username) const {
   auto it = ques_from_.find(username);
+  if (it != ques_from_.end()) {
+    cout << "Questions From " << username << ":\n";
+    cout << "----------\n";
+  }
   for (; it != ques_from_.end(); ++it) {
     if (it->first != username) { break; }
-    res.push_back(it->second);
+    it->second->Print();
+    cout << KSmallSeparator << "\n";
   }
-  return res;
 }
 
-vector<Question*> QuesManager::GetQuesTo(const string &username) {
-  vector<Question*> res;
+void QuesManager::PrintQuesTo(const string &username) const {
   auto it = ques_to_.find(username);
+  if (it != ques_to_.end()) {
+    cout << "Questions To " << username << ":\n";
+    cout << "----------\n";
+  }
   for (; it != ques_to_.end(); ++it) {
     if (it->first != username) { break; }
-    res.push_back(it->second);
+    it->second->Print();
+    cout << KSmallSeparator << "\n";
   }
-  return res;
 }
 
 bool QuesManager::DeleteQn(int id, const string &username) {

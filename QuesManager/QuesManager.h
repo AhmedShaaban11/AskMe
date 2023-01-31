@@ -40,8 +40,8 @@ class QuesManager {
   bool AddTh(const string &from, int parent_id, bool is_from_anonymous = false);
   bool AnsQn(const string &username, int id);
   string GetToUsr(int id) const;
-  vector<Question*> GetQuesFrom(const string &username);
-  vector<Question*> GetQuesTo(const string &username);
+  void PrintQuesFrom(const string &username) const;
+  void PrintQuesTo(const string &username) const;
   bool IsQnFound(int id) const;
   bool DeleteQn(int id, const string &username);
   void DeleteThreads(int parent_id);
