@@ -14,7 +14,7 @@ UsersManager::~UsersManager() {
 
 void UsersManager::Update() {
   Clear();
-  vector<string> lines = FileToLines(KUsersSrcPath);
+  vector<string> lines = gpm::FileToLines(KUsersSrcPath);
   QuesManager ques;
   for (const string &line : lines) {
     User usr(line);

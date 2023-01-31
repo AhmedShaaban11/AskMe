@@ -15,7 +15,7 @@ User::User(const string &username, const string &email, const string &password,
 }
 
 User::User(const string &line, const string &delimiter) {
-  vector<string> entries = LineToWords(line, delimiter);
+  vector<string> entries = gpm::LineToWords(line, delimiter);
   username_ = entries[0];
   email_ = entries[1];
   password_ = entries[2];
@@ -40,7 +40,7 @@ bool User::IsAcceptingAnonymous() const {
 
 string User::ToString(const string &del) const {
   string res;
-  res = username_ + del + email_ + del + password_ + del +
-      std::to_string(is_accepting_anonymous_);
+  res = gpm::ToString(del, username_, email_, password_,
+                      std::to_string(is_accepting_anonymous_));
   return res;
 }

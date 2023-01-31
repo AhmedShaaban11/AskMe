@@ -12,7 +12,7 @@ QuesManager::~QuesManager() {
 
 void QuesManager::Update() {
   Clear();
-  vector<string> lines = FileToLines(KQuesSrcPath);
+  vector<string> lines = gpm::FileToLines(KQuesSrcPath);
   for (const string &line : lines) {
     Question qn(line);
     ques_.insert({qn.GetId(), qn});
@@ -48,7 +48,7 @@ bool QuesManager::InsertQn(const string &from, const string &to,
     cout << "Error! Sender cannot be the Receiver.\n";
     return false;
   }
-  string txt = GetTxtTillDel(cin, "\n");
+  string txt = gpm::GetTxtTillDel(cin, "\n");
   Question qn(last_id_, parent_id, is_from_anonymous, from, to, txt);
   Update();
   ques_.insert({last_id_, qn});
@@ -94,7 +94,7 @@ bool QuesManager::AnsQn(const string &username, int id) {
     cout << "Error! Question doesn't belong to you\n";
     return false;
   }
-  string text = GetTxtTillDel();
+  string text = gpm::GetTxtTillDel();
   Update();
   ques_[id].SetAns(text);
   Save();
@@ -118,7 +118,7 @@ void QuesManager::PrintQuesFrom(const string &username) const {
   for (; it != ques_from_.end(); ++it) {
     if (it->first != username) { break; }
     it->second->Print();
-    cout << KSmallSeparator << "\n";
+    cout << gpm::KSmallSeparator << "\n";
   }
 }
 
@@ -131,7 +131,7 @@ void QuesManager::PrintQuesTo(const string &username) const {
   for (; it != ques_to_.end(); ++it) {
     if (it->first != username) { break; }
     it->second->Print();
-    cout << KSmallSeparator << "\n";
+    cout << gpm::KSmallSeparator << "\n";
   }
 }
 

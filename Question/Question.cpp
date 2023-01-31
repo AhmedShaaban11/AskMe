@@ -6,7 +6,7 @@ Question::Question() {
 }
 
 Question::Question(const string &line, const string &del) {
-  vector<string> entries = LineToWords(line, del);
+  vector<string> entries = gpm::LineToWords(line, del);
   id_ = std::stoi(entries[0]);
   parent_id_ = std::stoi(entries[1]);
   is_from_anonymous_ = (bool) std::stoi(entries[2]);
@@ -49,9 +49,8 @@ string Question::GetTo() const {
 
 string Question::ToString(const string &del) const {
   string res;
-  res = std::to_string(id_) + del + std::to_string(parent_id_) + del +
-      std::to_string(is_from_anonymous_) + del + from_ + del + to_ + del +
-      qn_ + del + ans_;
+  res = gpm::ToString(del, std::to_string(id_), std::to_string(parent_id_),
+                      std::to_string(is_from_anonymous_), from_, to_, qn_, ans_);
   return res;
 }
 
