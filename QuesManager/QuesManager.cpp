@@ -43,7 +43,7 @@ bool QuesManager::InsertQn(int parent_id, bool is_from_anonymous,
     cout << "Error! Sender cannot be the Receiver.\n";
     return false;
   }
-  string txt = gpm::GetTxtTillDel(cin, "\n");
+  string txt = gpm::InputString("Enter The Question Text: (End with a dot '.' at an empty line)", "\n.\n");
   Question qn(last_id_, parent_id, is_from_anonymous, from, to, txt);
   Update();
   ques_.insert({last_id_, qn});
@@ -80,9 +80,9 @@ bool QuesManager::AnsQn(const string &username, int id) {
       !gpm::YesOrNoQn("Modifying Existing Answer?")) {
     return false;
   }
-  string text = gpm::GetTxtTillDel();
+  string txt = gpm::InputString("Enter The Answer Text: (End with a dot '.' at an empty line)", "\n.\n");
   Update();
-  ques_[id].SetAns(text);
+  ques_[id].SetAns(txt);
   Save();
   return true;
 }

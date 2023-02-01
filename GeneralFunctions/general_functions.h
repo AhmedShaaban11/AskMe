@@ -14,10 +14,11 @@ namespace gpm {
   void PrintSeparator(char s = '-', int len = 30);
   vector<string> FileToLines(const string &file_name);
   vector<string> LineToWords(const string &line, const string &delimiter);
-  string GetTxtTillDel(istream &in = cin, const string &del = "\n.\n");
   bool YesOrNoQn(const string &msg);
   int InputInt(const string &msg, int lb = INT_MIN, int ub = INT_MAX);
-  string InputString(const string &msg);
+  string InputString(const string &msg, const char &del = '\n');
+  string InputString(const string &msg, const string &del);
+  void IgnoreLine();
   template<class T> string ToString(const string &del, const T &head) {
     return head;
   }

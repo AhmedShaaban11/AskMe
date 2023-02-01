@@ -30,23 +30,6 @@ vector<string> gpm::LineToWords(const string &line, const string &delimiter) {
   return vec;
 }
 
-string gpm::GetTxtTillDel(istream &in, const string &del) {
-  cout << "Enter Question text: (End with '" << del << "')\n";
-  char c;
-  int idx = 0;
-  string text, tmp;
-  while (tmp != del && idx < (int) del.size()) {
-    in.get(c);
-    if (c == del[idx]) {
-      tmp += c;
-      ++idx;
-      continue;
-    }
-    text += tmp += c;
-    tmp = "";
-  }
-  return text;
-}
 
 bool gpm::YesOrNoQn(const string &msg) {
   char c;
@@ -54,7 +37,7 @@ bool gpm::YesOrNoQn(const string &msg) {
     cout << msg << " (y/n)\n";
     cin >> c;
     c = (char) tolower(c);
-    cin.ignore(10000, '\n');
+    gpm::IgnoreLine();
   } while (c != 'y' && c != 'n');
   return c == 'y';
 }
@@ -74,14 +57,42 @@ int gpm::InputInt(const string &msg, int lb, int ub) {
       cin.clear();
       is_fail = true;
     }
-    cin.ignore(10000, '\n');
+    gpm::IgnoreLine();
   } while (is_fail || n < lb || n > ub);
   return n;
 }
 
-string gpm::InputString(const string &msg) {
+string gpm::InputString(const string &msg, const char &del) {
   string s;
   cout << msg << "\n";
-  getline(cin, s);
+  getline(cin, s, del);
+  if (del != '\n') {
+    gpm::IgnoreLine();
+  }
   return s;
+}
+
+string gpm::InputString(const string &msg, const string &del) {
+  char c;
+  int idx = 0;
+  string txt, tmp;
+  while (tmp != del && idx < (int) del.size()) {
+    cin.get(c);
+    if (c == del[idx]) {
+      tmp += c;
+      ++idx;
+      continue;
+    }
+    txt += tmp += c;
+    tmp = "";
+    idx = 0;
+  }
+  if (del.back() == '\n') {
+    gpm::IgnoreLine();
+  }
+  return txt;
+}
+
+void gpm::IgnoreLine() {
+  cin.ignore(10000, '\n');
 }
