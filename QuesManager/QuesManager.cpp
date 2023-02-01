@@ -115,6 +115,15 @@ void QuesManager::PrintQuesTo(const string &username) const {
   }
 }
 
+void QuesManager::PrintFeed() const {
+  cout << "Feed:\n";
+  gpm::PrintSeparator('-', 10);
+  for (auto it = ques_.rbegin(); it != ques_.rend(); ++it) {
+    it->second.Print();
+    gpm::PrintSeparator('-');
+  }
+}
+
 bool QuesManager::DeleteQn(int id, const string &username) {
   Update();
   if (!IsQnFound(id)) {

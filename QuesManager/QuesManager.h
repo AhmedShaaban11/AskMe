@@ -42,6 +42,7 @@ class QuesManager {
   string GetToUsr(int id) const;
   void PrintQuesFrom(const string &username) const;
   void PrintQuesTo(const string &username) const;
+  void PrintFeed() const;
   bool IsQnFound(int id) const;
   bool DeleteQn(int id, const string &username);
   void DeleteAllQues(const string &username);

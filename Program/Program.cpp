@@ -11,6 +11,7 @@ Program::Program() {
   features_menu_.emplace_back("Answer");
   features_menu_.emplace_back("Print Questions From Me");
   features_menu_.emplace_back("Print Questions To Me");
+  features_menu_.emplace_back("Print Feed");
   features_menu_.emplace_back("Print Available Users");
   features_menu_.emplace_back("Delete a Question");
   features_menu_.emplace_back("Delete your Account");
@@ -95,11 +96,13 @@ bool Program::Run() {
     } else if (c == 3) {
       ques.PrintQuesTo(usr);
     } else if (c == 4) {
-      users.PrintUsers();
+      ques.PrintFeed();
     } else if (c == 5) {
+      users.PrintUsers();
+    } else if (c == 6) {
       int id = gpm::InputInt("Enter Question ID:", 0);
       ques.DeleteQn(id, usr);
-    } else if (c == 6) {
+    } else if (c == 7) {
       string s;
       bool is_sure = gpm::YesOrNoQn("Are you sure?");
       if (is_sure && users.DeleteUser(usr)) {
