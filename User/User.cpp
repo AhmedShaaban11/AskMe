@@ -14,8 +14,8 @@ User::User(const string &username, const string &email, const string &password,
 
 }
 
-User::User(const string &line, const string &delimiter) {
-  vector<string> entries = gpm::LineToWords(line, delimiter);
+User::User(const string &line, const string &del) {
+  vector<string> entries = gpm::LineToWords(line, del);
   username_ = entries[0];
   email_ = entries[1];
   password_ = entries[2];

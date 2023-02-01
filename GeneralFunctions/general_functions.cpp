@@ -4,7 +4,7 @@ void gpm::PrintSeparator(char s, int len) {
   cout << string(len, s) << "\n";
 }
 
-vector<string> gpm::FileToLines(const string &file_name) {
+vector<string> gpm::FileToLines(const string &file_name, const string &del) {
   vector<string> vec;
   ifstream fin(file_name);
   if (fin.fail()) {
@@ -12,19 +12,19 @@ vector<string> gpm::FileToLines(const string &file_name) {
     return vec;
   }
   string line;
-  while (getline(fin, line)) {
+  while (GetLine(fin, line, del)) {
     vec.push_back(line);
   }
   fin.close();
   return vec;
 }
 
-vector<string> gpm::LineToWords(const string &line, const string &delimiter) {
+vector<string> gpm::LineToWords(const string &line, const string &del) {
   vector<string> vec;
   int i = 0, j;
-  while ((j = (int) line.find(delimiter, i)) != string::npos) {
+  while ((j = (int) line.find(del, i)) != string::npos) {
     vec.push_back(line.substr(i, j - i));
-    i = j + (int) delimiter.size();
+    i = j + (int) del.size();
   }
   vec.push_back(line.substr(i));
   return vec;
@@ -76,6 +76,7 @@ string gpm::InputString(const string &msg, const string &del) {
   char c;
   int idx = 0;
   string txt, tmp;
+  cout << msg << "\n";
   while (tmp != del && idx < (int) del.size()) {
     cin.get(c);
     if (c == del[idx]) {
@@ -87,10 +88,29 @@ string gpm::InputString(const string &msg, const string &del) {
     tmp = "";
     idx = 0;
   }
-  if (del.back() == '\n') {
+  if (del.back() != '\n') {
     gpm::IgnoreLine();
   }
   return txt;
+}
+
+bool gpm::GetLine(istream &in, string &str, const string &del) {
+  char c;
+  int idx = 0;
+  string tmp;
+  str = "";
+  while (!in.eof() && tmp != del && idx < (int) del.size()) {
+    in.get(c);
+    if (c == del[idx]) {
+      tmp += c;
+      ++idx;
+      continue;
+    }
+    str += tmp += c;
+    tmp = "";
+    idx = 0;
+  }
+  return !in.eof();
 }
 
 void gpm::IgnoreLine() {

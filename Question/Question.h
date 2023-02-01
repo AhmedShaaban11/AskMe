@@ -14,6 +14,7 @@ class Question {
   string to_;
   string qn_;
   string ans_;
+
  public:
   Question();
   explicit Question(const string &line, const string &del = ",");

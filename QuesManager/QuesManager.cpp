@@ -12,9 +12,9 @@ QuesManager::~QuesManager() {
 
 void QuesManager::Update() {
   Clear();
-  vector<string> lines = gpm::FileToLines(KQuesSrcPath);
+  vector<string> lines = gpm::FileToLines(KQuesSrcPath, gpm::KLineSeparator);
   for (const string &line : lines) {
-    Question qn(line);
+    Question qn(line, gpm::KUnitSeparator);
     ques_.insert({qn.GetId(), qn});
     if (qn.GetParentId() != -1) {
       threads_[qn.GetParentId()].insert(qn.GetId());
@@ -26,7 +26,7 @@ void QuesManager::Update() {
 void QuesManager::Save() const {
   ofstream fout(KQuesSrcPath);
   for (const auto &p : ques_) {
-    fout << p.second.ToString() << "\n";
+    fout << p.second.ToString(gpm::KUnitSeparator) << gpm::KLineSeparator;
   }
   fout.close();
 }
