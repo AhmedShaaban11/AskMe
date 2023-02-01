@@ -4,34 +4,34 @@
 #include "../User/User.h"
 
 Program::Program() {
-
+  sign_menu_.emplace_back("SignUp");
+  sign_menu_.emplace_back("LogIn");
+  sign_menu_.emplace_back("Exit");
+  features_menu_.emplace_back("Ask");
+  features_menu_.emplace_back("Answer");
+  features_menu_.emplace_back("Print Questions From Me");
+  features_menu_.emplace_back("Print Questions To Me");
+  features_menu_.emplace_back("Print Available Users");
+  features_menu_.emplace_back("Delete a Question");
+  features_menu_.emplace_back("Delete your Account");
+  features_menu_.emplace_back("LogOut");
 }
 
 Program::~Program() {
-
+  sign_menu_.clear();
+  features_menu_.clear();
 }
 
 void Program::PrintSignMenu() const {
-  vector<string> vec = {"SignUp", "LogIn", "Exit"};
-  for (int i = 0; i < (int) vec.size(); ++i) {
-    cout << i << " - " << vec[i] << "\n";
+  for (int i = 0; i < (int) sign_menu_.size(); ++i) {
+    cout << i << " - " << sign_menu_[i] << "\n";
   }
   gpm::PrintSeparator('=');
 }
 
-void Program::PrintMenu() const {
-  vector<string> vec = {
-      "Ask",
-      "Answer",
-      "Print Questions From Me",
-      "Print Question To Me",
-      "Print Available Users",
-      "Delete Question",
-      "Delete your Account",
-      "LogOut"
-  };
-  for (int i = 0; i < (int) vec.size(); ++i) {
-    cout << i << " - " << vec[i] << "\n";
+void Program::PrintFeaturesMenu() const {
+  for (int i = 0; i < (int) features_menu_.size(); ++i) {
+    cout << i << " - " << features_menu_[i] << "\n";
   }
   gpm::PrintSeparator('=');
 }
@@ -52,7 +52,7 @@ bool Program::ContinueRun() const {
 bool Program::Run() {
   if (!IsUserIn()) {
     PrintSignMenu();
-    int c = gpm::InputInt("Enter a number:", 0, 2);
+    int c = gpm::InputInt("Enter a number:", 0, (int) sign_menu_.size() - 1);
     if (c == 0) {
       users.AddUser();
     } else if (c == 1) {
@@ -61,8 +61,8 @@ bool Program::Run() {
       return false;
     }
   } else {
-    PrintMenu();
-    int c = gpm::InputInt("Enter a number:", 0, 7);
+    PrintFeaturesMenu();
+    int c = gpm::InputInt("Enter a number:", 0, (int) features_menu_.size() - 1);
     if (c == 0) {
       int parent_id = -1;
       string to_usr;

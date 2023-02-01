@@ -39,8 +39,6 @@ bool User::IsAcceptingAnonymous() const {
 }
 
 string User::ToString(const string &del) const {
-  string res;
-  res = gpm::ToString(del, username_, email_, password_,
-                      std::to_string(is_accepting_anonymous_));
-  return res;
+  return gpm::ToString(del, username_, email_, password_,
+                       std::to_string(is_accepting_anonymous_));
 }

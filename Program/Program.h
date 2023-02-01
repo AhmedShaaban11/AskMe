@@ -9,11 +9,13 @@ class Program {
   string usr;
   UsersManager users;
   QuesManager ques;
+  vector<string> sign_menu_;
+  vector<string> features_menu_;
  public:
   Program();
   ~Program();
   void PrintSignMenu() const;
-  void PrintMenu() const;
+  void PrintFeaturesMenu() const;
   bool IsUserIn() const;
   void LogOut();
   bool ContinueRun() const;

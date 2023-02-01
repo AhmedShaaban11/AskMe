@@ -48,10 +48,9 @@ string Question::GetTo() const {
 }
 
 string Question::ToString(const string &del) const {
-  string res;
-  res = gpm::ToString(del, std::to_string(id_), std::to_string(parent_id_),
-                      std::to_string(is_from_anonymous_), from_, to_, qn_, ans_);
-  return res;
+  return gpm::ToString(del, std::to_string(id_), std::to_string(parent_id_),
+                       std::to_string(is_from_anonymous_), from_, to_, qn_,
+                       ans_);
 }
 
 void Question::SetAns(const string &ans) {
