@@ -24,7 +24,11 @@ void QuesManager::Update() {
 }
 
 void QuesManager::Save() const {
-  ofstream fout(KQuesSrcPath);
+  ofstream fout(gpm::CorrectPath(KQuesSrcPath));
+  if (gpm::IsStreamFailed(fout, KQuesSrcPath)) {
+    fout.close();
+    return;
+  }
   for (const auto &p : ques_) {
     fout << p.second.ToString(gpm::KUnitSeparator) << gpm::KLineSeparator;
   }

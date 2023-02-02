@@ -25,8 +25,7 @@ vector<string> gpm::FileToLines(const string &path, const string &del) {
   vector<string> vec;
   string correct_path = CorrectPath(path);
   ifstream fin(correct_path);
-  if (fin.fail()) {
-    cout << "Error! cannot open " << path << "\n";
+  if (gpm::IsStreamFailed(fin, path)) {
     return vec;
   }
   string line;

@@ -28,7 +28,11 @@ void UsersManager::Clear() {
 }
 
 void UsersManager::Save() const {
-  ofstream fout(KUsersSrcPath);
+  ofstream fout(gpm::CorrectPath(KUsersSrcPath), std::ios::out);
+  if (gpm::IsStreamFailed(fout, KUsersSrcPath)) {
+    fout.close();
+    return;
+  }
   for (const auto &p : users_) {
     fout << p.second.ToString() << "\n";
   }

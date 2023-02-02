@@ -24,6 +24,13 @@ namespace gpm {
   string InputString(const string &msg, const string &del);
   bool GetLine(istream &in, string &str, const string &del = "\n");
   void IgnoreLine();
+  template<class T> bool IsStreamFailed(const T &in, const string &path = "") {
+    if (in.fail()) {
+      cout << "Error! File " << (!path.empty() ? path + " " : "") << "isn't found\n";
+      return true;
+    }
+    return false;
+  }
   template<class T> string ToString(const string &del, const T &head) {
     return head;
   }
