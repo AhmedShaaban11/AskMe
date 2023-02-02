@@ -18,10 +18,9 @@ using std::set;
 
 class Question;
 
-const char KQuesSrcPath[] = "QuesManager/ques_data.csv";
-
 class QuesManager {
  private:
+  const string path_;
   int last_id_;
   map<int, Question> ques_;
   map<int, set<int>> threads_;
@@ -31,7 +30,7 @@ class QuesManager {
   bool InsertQn(int parent_id, bool is_from_anonymous,
                 const string &from, const string &to);
  public:
-  QuesManager();
+  explicit QuesManager(const string &path);
   ~QuesManager();
   void Update();
   void Save() const;

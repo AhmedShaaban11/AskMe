@@ -2,7 +2,8 @@
 #include "../Question/Question.h"
 #include "../GeneralFunctions/general_functions.h"
 
-QuesManager::QuesManager() : last_id_{0} {
+QuesManager::QuesManager(const string &path)
+    : last_id_{0}, path_{gpm::CorrectPath(path)} {
   Update();
 }
 
@@ -12,7 +13,7 @@ QuesManager::~QuesManager() {
 
 void QuesManager::Update() {
   Clear();
-  vector<string> lines = gpm::FileToLines(KQuesSrcPath, gpm::KLineSeparator);
+  vector<string> lines = gpm::FileToLines(path_, gpm::KLineSeparator);
   for (const string &line : lines) {
     Question qn(line, gpm::KUnitSeparator);
     ques_.insert({qn.GetId(), qn});
@@ -24,11 +25,8 @@ void QuesManager::Update() {
 }
 
 void QuesManager::Save() const {
-  ofstream fout(gpm::CorrectPath(KQuesSrcPath));
-  if (gpm::IsStreamFailed(fout, KQuesSrcPath)) {
-    fout.close();
-    return;
-  }
+  ofstream fout(path_, std::ios::out);
+  if (gpm::IsStreamFailed(fout, path_)) { return; }
   for (const auto &p : ques_) {
     fout << p.second.ToString(gpm::KUnitSeparator) << gpm::KLineSeparator;
   }

@@ -4,7 +4,7 @@
 #include "../Question/Question.h"
 #include "../QuesManager/QuesManager.h"
 
-UsersManager::UsersManager() {
+UsersManager::UsersManager(const string &path) : path_{gpm::CorrectPath(path)} {
   Update();
 }
 
@@ -14,7 +14,7 @@ UsersManager::~UsersManager() {
 
 void UsersManager::Update() {
   Clear();
-  vector<string> lines = gpm::FileToLines(KUsersSrcPath);
+  vector<string> lines = gpm::FileToLines(path_);
   for (const string &line : lines) {
     User usr(line);
     users_.insert({usr.GetUsername(), usr});
@@ -28,11 +28,8 @@ void UsersManager::Clear() {
 }
 
 void UsersManager::Save() const {
-  ofstream fout(gpm::CorrectPath(KUsersSrcPath), std::ios::out);
-  if (gpm::IsStreamFailed(fout, KUsersSrcPath)) {
-    fout.close();
-    return;
-  }
+  ofstream fout(path_, std::ios::out);
+  if (gpm::IsStreamFailed(fout, path_)) { return; }
   for (const auto &p : users_) {
     fout << p.second.ToString() << "\n";
   }

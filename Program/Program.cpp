@@ -3,7 +3,8 @@
 #include "../Question/Question.h"
 #include "../User/User.h"
 
-Program::Program() {
+Program::Program(const string &users_path, const string &ques_path)
+    : users{users_path}, ques{ques_path} {
   sign_menu_.emplace_back("SignUp");
   sign_menu_.emplace_back("LogIn");
   sign_menu_.emplace_back("Exit");

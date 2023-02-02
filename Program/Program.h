@@ -13,7 +13,7 @@ class Program {
   vector<string> features_menu_;
   void AskProcess();
  public:
-  Program();
+  Program(const string &users_path, const string &ques_path);
   ~Program();
   void PrintSignMenu() const;
   void PrintFeaturesMenu() const;

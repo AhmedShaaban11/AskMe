@@ -14,20 +14,19 @@ using std::ofstream;
 using std::cin;
 using std::cout;
 
-const char KUsersSrcPath[] = "UsersManager/users_data.csv";
-
 class User;
 class Question;
 
 class UsersManager {
  private:
+  const string path_;
   map<string, User> users_;
   set<string> emails_;
   bool IsUserFound(const string &username) const;
   bool IsEmailFound(const string &email) const;
   bool IsUserAcceptingAnonymous(const string &username) const;
  public:
-  UsersManager();
+  explicit UsersManager(const string &path);
   ~UsersManager();
   void Update();
   void Clear();
