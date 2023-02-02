@@ -23,15 +23,16 @@ class UsersManager {
  private:
   map<string, User> users_;
   set<string> emails_;
+  bool IsUserFound(const string &username) const;
+  bool IsEmailFound(const string &email) const;
+  bool IsUserAcceptingAnonymous(const string &username) const;
  public:
   UsersManager();
   ~UsersManager();
   void Update();
   void Clear();
   void Save() const;
-  bool IsUserFound(const string &username) const;
-  bool IsEmailFound(const string &email) const;
-  bool IsUserAcceptingAnonymous(const string &username) const;
+  bool IsAskingUserPossible(const string &username, bool is_from_anonymous);
   string AccessUser();
   void AddUser();
   bool DeleteUser(const string &username);

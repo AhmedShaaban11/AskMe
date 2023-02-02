@@ -50,6 +50,26 @@ bool Program::ContinueRun() const {
   return true;
 }
 
+void Program::AskProcess() {
+  int parent_id = -1;
+  string to_usr;
+  bool is_thread = gpm::YesOrNoQn("Thread Question?");
+  if (is_thread) {
+    parent_id = gpm::InputInt("Enter Parent Question ID:", 0);
+    if (!ques.IsQnFound(parent_id)) {
+      cout << "Error! Question (" << parent_id << ") isn't found.\n";
+      return;
+    }
+    to_usr = ques.GetToUsr(parent_id);
+  } else {
+    to_usr = gpm::InputString("Enter Receiver Username:");
+  }
+  bool is_anonymous = gpm::YesOrNoQn("Anonymous Question?");
+  if (users.IsAskingUserPossible(to_usr, is_anonymous)) {
+    ques.AddQn(parent_id, is_anonymous, usr, to_usr);
+  }
+}
+
 bool Program::Run() {
   if (!IsUserIn()) {
     PrintSignMenu();
@@ -65,29 +85,7 @@ bool Program::Run() {
     PrintFeaturesMenu();
     int c = gpm::InputInt("Enter a number:", 0, (int) features_menu_.size() - 1);
     if (c == 0) {
-      int parent_id = -1;
-      string to_usr;
-      bool is_thread = gpm::YesOrNoQn("Thread Question?");
-      if (is_thread) {
-        parent_id = gpm::InputInt("Enter Parent Question ID:", 0);
-        if (!ques.IsQnFound(parent_id)) {
-          cout << "Error! Question (" << parent_id << ") isn't found.\n";
-          return ContinueRun();
-        }
-        to_usr = ques.GetToUsr(parent_id);
-      } else {
-        to_usr = gpm::InputString("Enter Receiver Username:");
-        if (!users.IsUserFound(to_usr)) {
-          cout << "Error! User " << to_usr << " not found.\n";
-          return ContinueRun();
-        }
-      }
-      bool is_anonymous = gpm::YesOrNoQn("Anonymous Question?");
-      if (is_anonymous && !users.IsUserAcceptingAnonymous(to_usr)) {
-        cout << "Error! " << to_usr << " doesn't accepting anonymous questions.\n";
-        return ContinueRun();
-      }
-      ques.AddQn(parent_id, is_anonymous, usr, to_usr);
+      AskProcess();
     } else if (c == 1) {
       int id = gpm::InputInt("Enter Question ID:", 0);
       ques.AnsQn(usr, id);

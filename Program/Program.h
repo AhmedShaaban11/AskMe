@@ -11,6 +11,7 @@ class Program {
   QuesManager ques;
   vector<string> sign_menu_;
   vector<string> features_menu_;
+  void AskProcess();
  public:
   Program();
   ~Program();

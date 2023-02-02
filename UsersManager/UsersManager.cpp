@@ -51,6 +51,19 @@ bool UsersManager::IsUserAcceptingAnonymous(const string &username) const {
   return users_.find(username)->second.IsAcceptingAnonymous();
 }
 
+bool UsersManager::IsAskingUserPossible(const string &username, bool is_from_anonymous) {
+  Update();
+  if (!IsUserFound(username)) {
+    cout << "Error! User " << username << " isn't found.\n";
+    return false;
+  }
+  if (is_from_anonymous && !IsUserAcceptingAnonymous(username)) {
+    cout << "Error! User " << username << " doesn't accept anonymous questions.\n";
+    return false;
+  }
+  return true;
+}
+
 string UsersManager::AccessUser() {
   string username, pass;
   cout << "Username:\n";
