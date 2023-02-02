@@ -76,12 +76,12 @@ string UsersManager::AccessUser() {
   getline(cin, pass);
   Update();
   if (!IsUserFound(username)) {
-    cout << "Error! Username isn't found\n";
-    return {};
+    cout << "Error! User isn't found.\n";
+    return "";
   }
   if (users_.find(username)->second.GetPassword() != pass) {
     cout << "Error! Password isn't correct\n";
-    return {};
+    return "";
   }
   return users_.find(username)->first;
 }
@@ -94,11 +94,7 @@ void UsersManager::AddUser() {
   getline(cin, email);
   cout << "Password:\n";
   getline(cin, pass);
-  string a;
-  do {
-    cout << "Accepting Anonymous? (y/n)\n";
-    getline(cin, a);
-  } while (a != "y" && a != "n");
+  bool is_accepting_anonymous = gpm::YesOrNoQn("Accepting Anonymous?");
   Update();
   if (IsUserFound(username)) {
     cout << "Error! Username used before\n";
@@ -108,7 +104,7 @@ void UsersManager::AddUser() {
     cout << "Error! Email used before\n";
     return;
   }
-  User usr(username, email, pass, a == "y");
+  User usr(username, email, pass, is_accepting_anonymous);
   users_.insert({username, usr});
   Save();
 }
@@ -119,9 +115,7 @@ bool UsersManager::DeleteUser(const string &username) {
     cout << "Error! Username isn't found\n";
     return false;
   }
-  cout << "Enter your Password:\n";
-  string pass;
-  getline(cin, pass);
+  string pass = gpm::InputString("Enter the password:");
   const User *usr = &users_.find(username)->second;
   if (usr->GetPassword() != pass) {
     cout << "Error! Password isn't correct\n";
