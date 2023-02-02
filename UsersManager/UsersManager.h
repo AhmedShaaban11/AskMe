@@ -14,7 +14,7 @@ using std::ofstream;
 using std::cin;
 using std::cout;
 
-const char KUsersSrcPath[] = "../UsersManager/users_data.csv";
+const char KUsersSrcPath[] = "UsersManager/users_data.csv";
 
 class User;
 class Question;

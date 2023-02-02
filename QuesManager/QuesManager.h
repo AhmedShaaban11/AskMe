@@ -18,7 +18,7 @@ using std::set;
 
 class Question;
 
-const char KQuesSrcPath[] = "../QuesManager/ques_data.csv";
+const char KQuesSrcPath[] = "QuesManager/ques_data.csv";
 
 class QuesManager {
  private:

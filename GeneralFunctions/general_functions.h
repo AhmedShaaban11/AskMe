@@ -5,6 +5,7 @@
 
 using std::vector;
 using std::string;
+using std::fstream;
 using std::ifstream;
 using std::istream;
 using std::cout;
@@ -14,7 +15,8 @@ namespace gpm {
   const char KUnitSeparator[] = "@@@";
   const char KLineSeparator[] = "~~~\n";
   void PrintSeparator(char s = '-', int len = 30);
-  vector<string> FileToLines(const string &file_name, const string &del = "\n");
+  string CorrectPath(const string &path);
+  vector<string> FileToLines(const string &path, const string &del = "\n");
   vector<string> LineToWords(const string &line, const string &del = ",");
   bool YesOrNoQn(const string &msg);
   int InputInt(const string &msg, int lb = INT_MIN, int ub = INT_MAX);

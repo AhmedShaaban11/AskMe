@@ -4,11 +4,29 @@ void gpm::PrintSeparator(char s, int len) {
   cout << string(len, s) << "\n";
 }
 
-vector<string> gpm::FileToLines(const string &file_name, const string &del) {
+string gpm::CorrectPath(const string &path) {
+  string res;
+  ifstream fin(path);
+  bool is_opened = !fin.fail();
+  fin.close();
+  if (is_opened) {
+    res = path;
+    return res;
+  }
+  bool is_outer = (path.substr(0, 3) == "../");
+  is_outer ? res = path.substr(3) : res = "../" + path;
+  fin.open(res);
+  is_opened = !fin.fail();
+  fin.close();
+  return is_opened ? res : "";
+}
+
+vector<string> gpm::FileToLines(const string &path, const string &del) {
   vector<string> vec;
-  ifstream fin(file_name);
+  string correct_path = CorrectPath(path);
+  ifstream fin(correct_path);
   if (fin.fail()) {
-    cout << "Error! cannot open " << file_name << "\n";
+    cout << "Error! cannot open " << path << "\n";
     return vec;
   }
   string line;
@@ -29,7 +47,6 @@ vector<string> gpm::LineToWords(const string &line, const string &del) {
   vec.push_back(line.substr(i));
   return vec;
 }
-
 
 bool gpm::YesOrNoQn(const string &msg) {
   char c;
