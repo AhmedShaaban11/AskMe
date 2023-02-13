@@ -1,6 +1,6 @@
 #include "QuesManager.h"
 #include "../Question/Question.h"
-#include "../GeneralFunctions/general_functions.h"
+#include "../Namespaces/gpm.h"
 
 QuesManager::QuesManager(const string &path)
     : last_id_{0}, path_{gpm::CorrectPath(path)} {

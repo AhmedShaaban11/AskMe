@@ -1,5 +1,5 @@
 #include "Question.h"
-#include "../GeneralFunctions/general_functions.h"
+#include "../Namespaces/gpm.h"
 
 Question::Question() {
 

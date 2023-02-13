@@ -1,7 +1,7 @@
 // 24 Jan 2023
 #include "User.h"
 #include "../Question/Question.h"
-#include "../GeneralFunctions/general_functions.h"
+#include "../Namespaces/gpm.h"
 
 User::User() {
 

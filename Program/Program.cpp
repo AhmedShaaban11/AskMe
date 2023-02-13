@@ -1,5 +1,5 @@
 #include "Program.h"
-#include "../GeneralFunctions/general_functions.h"
+#include "../Namespaces/gpm.h"
 #include "../Question/Question.h"
 #include "../User/User.h"
 

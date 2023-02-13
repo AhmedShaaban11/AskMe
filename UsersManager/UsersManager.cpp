@@ -1,6 +1,6 @@
 #include "UsersManager.h"
 #include "../User/User.h"
-#include "../GeneralFunctions/general_functions.h"
+#include "../Namespaces/gpm.h"
 #include "../Question/Question.h"
 #include "../QuesManager/QuesManager.h"
 
