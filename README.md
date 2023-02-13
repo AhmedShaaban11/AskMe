@@ -8,6 +8,30 @@ Program Implemented totally using C++. It uses two csv files for saving
 data of users & questions. Program now is in a stable condition,
 although it will be enhanced more at the future.
 
+## Features
+
+  - Ask: You can ask a question to any user
+  
+    - Threads: You can make a thread if the parent question answered
+    
+    - Anonymous Questions: You can ask anonymous questions
+
+  - Answer: You can answer questions to you
+  
+  - Recieving Anonymous Questions Control: You can choose to accept anonymous questions or not
+  
+  - Print Questions To You
+  
+  - Print Question From You
+  
+  - Feed: Printing the latest questions asked by users
+  
+  - List Users: Printing users in the system
+  
+  - Delete A Question: You can delete a question from/to you
+  
+  - Delete Your Account
+
 ## Classes
 
   - User: A record for user information
@@ -34,7 +58,7 @@ although it will be enhanced more at the future.
 
 ![Sign Menu](Images/0.png)
 
-## Features
+## Features Menu
 
 ![Features Menu](Images/1.png)
 
