@@ -18,6 +18,10 @@ string gpm::CorrectPath(const string &path) {
   fin.open(res);
   is_opened = !fin.fail();
   fin.close();
+  auto last_slash = path.find_last_of('/');
+  if (path.substr(last_slash + 1) == ".run") {
+    while (res.back() != '/') { res.pop_back(); }
+  }
   return is_opened ? res : "";
 }
 
